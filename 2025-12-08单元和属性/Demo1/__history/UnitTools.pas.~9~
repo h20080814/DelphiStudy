@@ -1,0 +1,99 @@
+unit UnitTools;
+
+interface   //接口部分声明区域  常量/变量/过程/函数
+{//能被其他外部直接使用}
+
+uses       //引用其他单元
+  Unit1;
+ {*------------------------------------------------------------------------------
+   类的使用方法：
+   第一种方法：
+   1、在uses下面声明类 ，并添加字段/域 ,如果使用的关键字是private并需要外部访问的话，需要在public中定义属性
+         uses
+            type
+                TPerson = class
+              private
+               FName: string;
+      property//关键字，属性 Name//对外使用的名称: string//要与引用的字段的类型一致 read//读 FName//被引用的字段名 write//写 FName//被引用的字段名 ;
+   2、在外部需要声明变量来引用类
+           var
+              Person: TPerson;
+   3、初始化类
+          begin
+              Person := TPerson.Create;
+   4、使用类中的字段
+              write(Person.Name);
+          end;
+   第二种方法：
+    1、在uses下面声明类 ，并添加字段/域 ,如果使用的关键字是private并需要外部访问的话，需要在public中定义属性
+         uses
+            type
+                TPerson = class
+              private
+               FAge: Integer;
+   uses
+   type
+  TPerson = class
+
+  private      //私有的，不能直接访问,如果要外部访问的话，需要在
+                public中定义属性
+               FName: string;
+  protected   //受保护的, 被该关键字修饰的某个字段
+                      或方法，就只能在其子类中访问
+               protected declarations
+  public      //公共的
+              property//关键字，属性 Name//对外使用的名称: string//要与引用的字段的类型一致 read//读 FName//被引用的字段名 write//写 FName//被引用的字段名 ;
+
+  published
+              published declarations
+  end;
+ -------------------------------------------------------------------------------}
+
+type
+  TPerson = class
+  private
+    FName: string;
+    FAge: Integer;
+    function GetAge(): Integer;  //声明一个函数，用于获取字段的值
+    procedure SetAge(FSetAge: integer);  //声明一个过程，用于向字段 内写入值
+  protected
+              { protected declarations }
+  public
+    property Name: string read FName write FName;
+    property Age: Integer read GetAge write SetAge;
+  published
+              { published declarations }
+  end;
+
+implementation  //实现 区域
+
+{//只能在本单元内使用}
+
+var
+  Age: Integer;
+
+{ TPerson }
+
+function TPerson.GetAge: Integer;
+begin
+  Result := Self.FAge;
+
+end;
+
+procedure TPerson.SetAge(FSetAge: integer);
+begin
+  Self.FAge := FSetAge;
+end;
+
+initialization  //初始化区域  程序启动时先执行，并顺序执行
+
+  //Name := '小小';
+  Age := 18;
+
+finalization  //销毁区域  程序结束时执行
+
+ // Name := '';
+  Age := 0;
+
+end.
+

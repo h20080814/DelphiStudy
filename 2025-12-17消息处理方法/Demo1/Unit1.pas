@@ -1,0 +1,70 @@
+﻿unit Unit1;
+
+interface
+{*------------------------------------------------------------------------------
+  在Delphi中，Self.Handle 是一个属性，用于获取当前对象（通常是窗体或控件）对应的Windows窗口句柄（HWND）。
+  句柄是Windows操作系统中标识窗口对象的唯一标识符，通过它可以调用Windows API函数来操作窗口。‌
+
+基本概念与用途
+‌定义‌：Self.Handle 返回当前对象（如窗体）的窗口句柄。在窗体代码中，Self 通常指代当前窗体实例，因此 Self.Handle 等价于 Form1.Handle。‌
+
+‌主要用途‌：句柄用于直接与Windows消息系统交互，例如发送消息、处理事件或调用API。常见场景包括窗口控制（如最小化、最大化）、资源管理或与其他应用程序交互。‌
+
+与其他句柄的区别
+在Delphi中，存在多种句柄，它们的作用范围不同：
+
+‌HInstance‌：表示应用程序或DLL的模块实例句柄，通常是程序加载到内存的基地址。它主要用于查找资源（如图标、字符串表），而不是直接操作窗口。‌‌
+
+‌Application.Handle‌：指向Delphi应用程序内部的一个隐藏窗口句柄，通常与任务栏图标相关联，但不是用户可见的窗体。‌‌
+
+‌Self.Handle‌：特指当前窗体的窗口句柄，是用户界面的主要标识，用于控制该窗体的外观和行为。‌
+
+-------------------------------------------------------------------------------}
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    btn2: TButton;
+    procedure btn1Click(Sender: TObject);
+    procedure btn2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure ShowMyMsg(var Msg: TMessage); message WM_USER + 1; //WM_USER 消息编号（1024前已满）
+
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+begin
+  ShowMessage('hello');
+  Application.MessageBox('World', '提示', 0);
+
+end;
+
+procedure TForm1.btn2Click(Sender: TObject);
+begin
+ //发送消息
+  SendMessage(Self.Handle{窗体句柄}, WM_USER + 1, 101, Integer(PChar('不容易')));
+end;
+
+//消息处理过程，该过程无需手动（显式）调用
+procedure TForm1.ShowMyMsg(var Msg: TMessage);
+begin
+  ShowMessage(PChar(Msg.LParam));
+
+end;
+
+end.
+

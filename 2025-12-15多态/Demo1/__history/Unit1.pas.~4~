@@ -1,0 +1,28 @@
+unit Unit1;
+
+interface
+
+type
+  TColor = interface  //定义接口，接口类不能创建对象，但可以指向实现类的对象
+  end;
+
+  TAnimal = class(TInterfacedObject) //父类了继承接口类
+  public
+  procedure Run();virtual ;abstract ;
+  end;
+
+  TDog = class(TAnimal, TColor) //子类继承了父类和接口
+  procedure Run();override ; //override重写
+  end;
+
+implementation
+
+{ TDog }
+
+procedure TDog.Run;
+begin
+Writeln('狗在跑');
+end;
+
+end.
+

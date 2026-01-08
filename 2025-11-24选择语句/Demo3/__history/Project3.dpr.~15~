@@ -1,0 +1,160 @@
+program Project3;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils;
+
+{*------------------------------------------------------------------------------
+ 1、分数判断：对学生成绩大于等于60分的输出”合格“，否则输出”不合格“
+ 定义一个过程比较分数
+-------------------------------------------------------------------------------}
+//声明一个过程
+procedure ComparingFraction();
+//过程的具体实现
+var
+  Fraction: Integer;
+begin
+  Writeln('请输入需要判断的分数：');
+  Readln(Fraction);
+  if Fraction >= 60 then
+  begin
+    Writeln('合格');
+  end
+  else
+  begin
+    Writeln('不合格');
+  end;
+end;
+{*------------------------------------------------------------------------------
+   2、根据指定的月份，打印该月份所属的季节。
+   春季（3、4、5）、夏季（6、7、8）、秋季（9、10、11）、冬季（12、1、2）
+
+  @param Month 需要判断的月份
+-------------------------------------------------------------------------------}
+ //用if语句判断
+
+procedure JudgmentSeasonIf(Month: integer);
+begin
+  //如果传过来的月份不在1-12这个区间，那么就终止过程的执行
+  if not ((Month > 0) and (Month < 13)) then
+  begin
+    Writeln('月份无法判断');
+    Exit;
+  end;
+
+  if (Month >= 3) and (Month <= 5) then
+  begin
+    Writeln('春季');
+    Exit;
+  end;
+
+  if (Month >= 6) and (Month <= 8) then
+  begin
+    Writeln('夏季');
+    Exit;
+  end;
+
+  if (Month >= 9) and (Month <= 11) then
+  begin
+    Writeln('秋季');
+    Exit;
+  end;
+
+  if (Month = 12) or ((Month > 0) and (Month < 3)) then
+  begin
+    Writeln('冬季');
+    Exit;
+  end;
+
+end;
+
+ //用case语句判断
+
+procedure JudgmentSeasonCase(Month: integer);
+begin
+  case Month of
+    1:
+      begin
+        Writeln('冬季');
+      end;
+
+    2:
+      begin
+        Writeln('冬季');
+      end;
+
+    3:
+      begin
+        Writeln('春季');
+      end;
+
+    4:
+      begin
+        Writeln('春季');
+      end;
+    5:
+      begin
+        Writeln('春季');
+      end;
+    6:
+      begin
+        Writeln('夏季');
+      end;
+    7:
+      begin
+        Writeln('夏季');
+      end;
+    8:
+      begin
+        Writeln('夏季');
+      end;
+    9:
+      begin
+        Writeln('秋季');
+      end;
+    10:
+      begin
+        Writeln('秋季');
+      end;
+    11:
+      begin
+        Writeln('秋季');
+      end;
+    12:
+      begin
+        Writeln('冬季');
+      end;
+  else
+    begin
+      Writeln('非法月份');
+    end;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  打印输出闰年还是平年，每个月份的天数和所属的季节
+  判断闰年或平年的方法：
+
+普通年份：能被4整除的是闰年（如2008年），否则是平年（如2021年）。
+整百年份：能被400整除的是闰年（如2000年），否则是平年（如1900年）。
+-------------------------------------------------------------------------------}
+procedure YearlyComputation(year: integer);
+begin
+  if mod(year / 4) = 0 then
+  begin
+    Writeln('闰年');
+  end
+  else
+  begin
+    Writeln('平年');
+  end;
+end;
+
+begin
+  JudgmentSeasonCase(3);
+  Readln;
+end.
+

@@ -1,0 +1,54 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{*------------------------------------------------------------------------------
+方法：
+    1、种类：
+      1、静态方法：  类中缺省类型，执行速度快，不支持多态性
+            1、关键字  无
+            2、调用规则：类对象的调用
+              1、声明  在interface下面
+                          type
+                            TPerson = class
+                            public
+                              procedure Talk();  Ctrl+Shift+C
+                            end;
+              2、实现  在implementation下面
+                        procedure TPerson.Talk;
+                          begin
+                            Writeln('静态方法');
+                          end;
+              3、调用
+                     var
+                      Person: TPerson;
+
+                     begin
+                      Person := TPerson.Create(); //创建类的对象（类的实例化//类的初始化）
+                      Person.Talk();
+                      Person.Free();  //销毁/析构
+                      Readln;
+                     end.
+      2、虚拟方法：
+      3、动态方法：
+      4、类方法：
+      5、抽象方法：
+      6、消息方法：
+      7、构造方法：
+      8、析构方法：
+-------------------------------------------------------------------------------}
+uses
+  System.SysUtils,
+  Unit1 in 'Unit1.pas';
+
+var
+  Person: TPerson;
+
+begin
+  Person := TPerson.Create();
+  Person.Talk();
+  Person.Free();
+  Readln;
+end.
+

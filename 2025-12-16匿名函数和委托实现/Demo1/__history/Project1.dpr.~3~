@@ -1,0 +1,57 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{*------------------------------------------------------------------------------
+匿名函数
+  定义：关键字reference
+    TFun = reference to function(const num:Integer):Integer;
+
+-------------------------------------------------------------------------------}
+uses
+  System.SysUtils;
+
+type
+  TFunDemo = function(Num1: Integer): Integer; //声明一个函数类型
+
+  UnnamedDemo = reference to function(Num2: Integer): Integer; //声明一个匿名函数
+
+function Demo1(Num1: Integer): Integer;  //实现TFundemo
+begin
+  Result := Num1;                        //返回值
+  Writeln(Num1);
+end;
+
+//匿名函数的另一种方法，把函数当作一个对象进行传递
+function Demo2(Num1, Num2: Integer; Fun: UnnamedDemo): Integer;
+begin
+  Result := Fun(Num1 + Num2);
+end;
+
+var
+  Fun1: TFunDemo;   //声明函数类型的变量
+  Fun2: UnnamedDemo; //  声明匿名函数类型的变量
+  FunSum: Integer;
+
+begin
+  Fun1 := Demo1;
+  Fun2 := Demo1;
+  Fun1(20);        //调用函数Demo1
+  Fun2(30);
+  Fun2 :=                              //匿名函数的一种写法
+    function(Num2: Integer): Integer   //没有；号，编译器认为这是个语句
+    begin
+      Result := Num2;
+    end;
+
+  Writeln(Fun2(40));                  //调用匿名函数
+  FunSum := Demo2(30, 20,
+    function(Num2: Integer): Integer   //没有；号，编译器认为这是个语句
+    begin
+      Result := Num2;
+    end);
+  Writeln(FunSum);
+  Readln;
+end.
+

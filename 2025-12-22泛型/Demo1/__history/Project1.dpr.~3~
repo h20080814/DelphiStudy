@@ -1,0 +1,19 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{
+泛型
+  广泛的数据类型 ，数据类型的变量
+  作用：
+    1、为了避免在程序中的数据类型强制转换 （强制转换会导致精度降低）
+}
+uses
+  System.SysUtils;
+
+begin
+
+ Readln;
+
+end.

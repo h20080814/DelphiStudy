@@ -1,0 +1,62 @@
+object AddForm: TAddForm
+  Left = 754
+  Top = 463
+  BorderStyle = bsDialog
+  Caption = #28155#21152#23398#29983#20449#24687
+  ClientHeight = 250
+  ClientWidth = 238
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesigned
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lblName: TLabel
+    Left = 32
+    Top = 40
+    Width = 24
+    Height = 13
+    Caption = #22995#21517
+  end
+  object lblAge: TLabel
+    Left = 32
+    Top = 88
+    Width = 24
+    Height = 13
+    Caption = #24180#40836
+  end
+  object edtName: TEdit
+    Left = 80
+    Top = 37
+    Width = 121
+    Height = 21
+    TabOrder = 0
+  end
+  object edtAge: TEdit
+    Left = 80
+    Top = 85
+    Width = 121
+    Height = 21
+    TabOrder = 1
+  end
+  object btnSave: TButton
+    Left = 32
+    Top = 144
+    Width = 75
+    Height = 25
+    Caption = #20445#23384
+    TabOrder = 2
+  end
+  object btnCancel: TButton
+    Left = 126
+    Top = 144
+    Width = 75
+    Height = 25
+    Caption = #21462#28040
+    TabOrder = 3
+  end
+end

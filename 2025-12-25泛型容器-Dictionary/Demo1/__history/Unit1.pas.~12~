@@ -1,0 +1,45 @@
+unit Unit1;
+{
+泛型容器（Collections）类：
+1、TList类
+2、TDictonary类
+  1、Key--Value的存储方式
+
+}
+
+interface
+
+uses
+  Unit2, System.Generics.Collections, Winapi.Windows, Winapi.Messages, System.SysUtils,
+  System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls;
+
+type
+  TMainForm = class(TForm)
+    btn1: TButton;
+    btn2: TButton;
+    btn3: TButton;
+    btn4: TButton;
+    mmo1: TMemo;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+  Students: TDictionary<Integer, TStudent>; //全局容器，存放学生信息
+
+implementation
+
+{$R *.dfm}
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  Students := TDictionary<Integer, TStudent>.Create(); //初始化
+end;
+
+end.
+

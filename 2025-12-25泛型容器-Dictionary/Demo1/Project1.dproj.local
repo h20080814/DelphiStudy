@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/12/25 08:10:27.000.848,=G:\DelphiStudy\workspace\Unit1.pas</Transaction>
+    <Transaction>2025/12/25 08:12:21.000.089,G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Unit1.pas=G:\DelphiStudy\workspace\Unit1.pas</Transaction>
+    <Transaction>2025/12/25 08:12:21.000.089,G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Unit1.dfm=G:\DelphiStudy\workspace\Unit1.dfm</Transaction>
+    <Transaction>2025/12/25 08:12:26.000.395,G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Project1.dproj=G:\DelphiStudy\workspace\Project1.dproj</Transaction>
+    <Transaction>2025/12/25 08:42:24.000.687,=G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Unit2.pas</Transaction>
+    <Transaction>2025/12/25 09:36:42.000.894,=G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Unit3.pas</Transaction>
+    <Transaction>2025/12/25 09:42:32.000.255,G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\UnitAdd.dfm=G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Unit3.dfm</Transaction>
+    <Transaction>2025/12/25 09:42:32.000.255,G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\UnitAdd.pas=G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Unit3.pas</Transaction>
+    <Transaction>2025/12/25 09:43:08.000.445,G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\UnitAddForm.pas=G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\UnitAdd.pas</Transaction>
+    <Transaction>2025/12/25 09:43:08.000.445,G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\UnitAddForm.dfm=G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\UnitAdd.dfm</Transaction>
+    <Transaction>2025/12/25 10:43:31.000.899,=G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Unit3.pas</Transaction>
+    <Transaction>2025/12/25 10:44:05.000.646,G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\UnitDao.pas=G:\DelphiStudy\workspace\2025-12-25泛型容器-Dictionary\Demo1\Unit3.pas</Transaction>
+  </Transactions>
+</BorlandProject>

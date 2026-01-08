@@ -1,0 +1,23 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+ {
+1、单元
+      1、方便我们代码维护
+      2、对代码进行分门别类的整理
+ }
+uses
+  System.SysUtils,
+  UnitTools in 'UnitTools.pas',  //自动引用其他单元
+  Unit1 in 'Unit1.pas';
+
+begin
+
+  writeln(Name);
+
+  readln;
+
+end.
+

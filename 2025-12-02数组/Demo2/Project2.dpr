@@ -1,0 +1,66 @@
+program Project2;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils;
+  //声明动态数组
+
+type
+  StringArray = array of string;   //标准写法
+
+var
+  NameArray: StringArray;
+  ConcatArray: StringArray;
+  ConcatArray1: StringArray;
+  ConcatArray2: StringArray;
+  CopyArray: StringArray;
+  MyElem: string;
+  MyElemIndex: Integer;
+
+ //动态数组初始化 ，遍历数组元素
+procedure DynamicArray();
+begin
+  //设置动态数组长度
+  {
+  SetLength(NameArray, 20);  //只设置长度，并未添加元素
+  NameArray := StringArray.Create('林青霞', '张曼玉');   //设置长度并添加元素，覆盖上一条语句的定义长度
+  NameArray := ['林青霞', '那英', '刀郎', '周迅', '张曼玉']; //设置长度并添加元素，覆盖上两条语句的定义长度
+  Writeln(length(NameArray), ',', Low(NameArray), ',', High(NameArray));
+  第一种方法
+  for MyElemIndex := Low(NameArray) to High(NameArray) do begin
+    Writeln(NameArray[MyElemIndex]);
+
+  end;
+  }
+  { 第二种方法
+  for MyElem in NameArray do begin
+    Writeln(MyElem);
+  end;
+  }
+  //第三种方法 Concat用来连接两个字符串或两个数组
+  ConcatArray1 := StringArray.Create('林青霞', '那英');
+  ConcatArray2 := stringarray.Create('光头强', '小丸子');
+  //Concat用来连接两个字符串或两个数组
+  ConcatArray := Concat(ConcatArray1, ConcatArray2);
+  //copy 复制数组
+  CopyArray := Copy(ConcatArray, 1, 3{length(ConcatArray)});  //1 是起始索引，low(数组名)从头开始；3 是复制个数 ，length(数组名)，起始索引后的全部的个数
+  //插入数组
+  Insert(ConcatArray1{源数组}, ConcatArray2{目标数组}, 1{目标数组插入的位置(前)});
+  //删除数组中的元素
+  Delete(ConcatArray2, length(ConcatArray2) - 3{从倒数第二个元素开始}, Length(ConcatArray2){删除个数，Length(ConcatArray2)表示直到最后});
+
+  for MyElem in ConcatArray2 do begin
+    Writeln(MyElem);
+  end;
+
+end;
+
+begin
+  DynamicArray();
+  Readln;
+
+end.
+

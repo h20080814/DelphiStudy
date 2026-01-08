@@ -1,0 +1,82 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+ {
+ 1、常量
+        我们在一开始就定义好的一些值，在以后程序的
+        运行过程中不允许改变，例如：圆周率
+        常量最好不要定义在局部里
+        const
+        YuanZhouLv:Double = 3.14;
+        YuanZhouLv1 = 3;
+        常量可以不进行类型的声明 ，编译器会根据具体
+        值来决定常量的类型
+  2、枚举  常量集   不仅用于数值处理，还用于处理非
+        数值的数据。例如：性别、月份、星期、颜色
+        单位名、学历、职业等
+        枚举常量不允许重复出现，不允许同一枚举出现
+        在不同的类型中
+        正常情况下枚举类型的索引是从0开始
+     type
+        枚举名 = (标识符1,标识符2,..);
+ }
+uses
+  System.TypInfo,
+  System.SysUtils;
+
+const
+  YuanZhouLv: Double = 3.14;
+  YuanZhouLv1 = 3;
+
+type
+  Ecolors = (RED, GREEN, BLUE);
+  //非正常情况下枚举类型的索引是你定义的值
+
+  EWeek = (SUN = 1, MON = 2, TUE = 3, WED = 4, THU = 5, FRI = 6, SAT = 7);
+
+var
+  Color: Ecolors;
+  Week: EWeek;
+
+var
+  Eindex: Integer;
+  Ename: string;
+  Evalue: Integer;
+
+{*------------------------------------------------------------------------------
+
+ 获取枚举中单个元素
+-------------------------------------------------------------------------------}
+
+procedure EnumerationSingleElement();
+begin
+  Color := Ecolors.RED;
+  Week := EWeek.SUN;
+  Writeln(ord(Color), ',', ord(Week)); //ord ordinal序数，表示事物在序列中的顺序或位置
+
+end;
+{*------------------------------------------------------------------------------
+  使用遍历（挨个获取）枚举元素
+  -------------------------------------------------------------------------------}
+
+procedure TraverseEnumerationElement();
+begin
+  Eindex := 0;
+  for Color := Low(Ecolors) to High(Ecolors) do begin
+    Ename := GetEnumName(TypeInfo(Ecolors), Eindex);
+    Evalue := GetEnumValue(TypeInfo(Ecolors), Ename);
+
+    Writeln(Ename, ',', Evalue);
+    inc(Eindex);
+
+  end;
+end;
+
+begin
+  TraverseEnumerationElement();
+
+  Readln;
+end.
+

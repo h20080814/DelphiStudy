@@ -1,0 +1,31 @@
+unit UnitDao;
+
+interface
+
+uses
+  Unit2, System.Generics.Collections;
+
+type
+  TDao = class
+  public
+    class procedure Add(student: TStudent); //添加过程，类过程，class方法调用时不需要创建对象
+
+  end;
+
+implementation
+
+var
+  Students: TDictionary<Integer, TStudent>; //全局容器，存放学生信息
+
+{ TDao }
+
+class procedure TDao.Add(student: TStudent);
+begin
+  Students.Add(student.Id, student);
+end;
+
+initialization
+  Students := TDictionary<Integer, TStudent>.Create();
+
+end.
+

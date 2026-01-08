@@ -1,0 +1,44 @@
+unit Unit1;
+
+interface
+
+uses
+  System.Generics.Collections, Unit2, Winapi.Windows, Winapi.Messages, System.SysUtils,
+  System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    mmo1: TMemo;
+    btnAdd: TButton;
+    btnDel: TButton;
+    btnFind: TButton;
+    btnModify: TButton;
+    btnEmpty: TButton;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  StudentList: TList<TStudent>;   //学生列表
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  StudentList := TList<TStudent>.Create;  //初始化学生列表
+  StudentList.Add(TStudent.Create('张三'));
+  StudentList.Add(TStudent.Create('李四'));
+  StudentList.Add(TStudent.Create('王五'));
+  StudentList.Add(TStudent.Create('赵六'));
+  StudentList.Add(TStudent.Create('麻子'));
+end;
+
+end.
+

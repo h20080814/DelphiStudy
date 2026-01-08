@@ -1,0 +1,35 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{
+泛型
+  广泛的数据类型 ，数据类型的变量
+  作用：
+    1、为了避免在程序中的数据类型强制转换 （强制转换会导致精度降低）
+    2、在容器中使用数据类型更为灵活
+  使用： <T>
+}
+uses
+  System.SysUtils;
+
+type
+  TStingArr = array of string;  //定义一个字符串数组类
+
+  TIntegerArr = array of Integer;  //定义一个整数数组类
+
+  TArrayss<T> = array of T;  //定义一个泛型数组类  T可以是任意字母，但要求前后一致
+
+var
+  StingArr: TStingArr;
+  IntegerArr: TIntegerArr;
+
+begin
+  StingArr := ['aa', 'bb'];
+  IntegerArr := [11, 22, 33];
+
+  Readln;
+
+end.
+

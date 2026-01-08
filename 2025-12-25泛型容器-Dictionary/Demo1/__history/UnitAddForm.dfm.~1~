@@ -1,0 +1,17 @@
+object AddForm: TAddForm
+  Left = 754
+  Top = 463
+  Caption = #28155#21152#23398#29983#20449#24687
+  ClientHeight = 240
+  ClientWidth = 228
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesigned
+  PixelsPerInch = 96
+  TextHeight = 13
+end

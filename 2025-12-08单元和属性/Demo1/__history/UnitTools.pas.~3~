@@ -1,0 +1,20 @@
+unit UnitTools;
+
+interface   //接口部分声明区域  常量/变量/过程/函数
+
+var
+  Name: string;
+
+implementation  //实现 区域
+
+var
+  Age: Integer;
+
+initialization  //初始化区域  程序启动时先执行，并顺序执行
+
+
+
+finalization  //销毁区域  程序结束时执行
+
+end.
+

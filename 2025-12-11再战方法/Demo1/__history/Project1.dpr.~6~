@@ -1,0 +1,73 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{*------------------------------------------------------------------------------
+方法：
+    1、种类：
+      1、静态方法：  类中缺省类型，执行速度快，不支持多态性
+            1、关键字  无
+            2、调用规则：类对象的调用
+              1、声明  在interface下面
+                          type
+                            TPerson = class
+                            public
+                              procedure Talk();  Ctrl+Shift+C
+                            end;
+              2、实现  在implementation下面
+                        procedure TPerson.Talk;
+                          begin
+                            Writeln('静态方法');
+                          end;
+              3、调用
+                     var
+                      Person: TPerson;
+
+                     begin
+                      Person := TPerson.Create(); //创建类的对象（类的实例化//类的初始化）
+                      Person.Talk();
+                      Person.Free();  //销毁/析构
+                      Readln;
+                     end.
+      2、虚拟方法：父类可以实现多态性
+          1、关键字  virtual
+          2、调用规则：与静态方法的调用规则相同一般情况下，父类的虚拟方法会有一个空实现。
+                        如果子类（派生类）要覆盖（重写）父类（基类）的方法，那么父类的方法必须是虚拟方法或者动态方法
+      3、动态方法：
+          1、关键字  Dynamic
+          2、调用规则：与虚拟方法一致
+小结：1、每个类都内含着两个表：虚方法（VMT）和动态方法表（DMT）；
+      2、虚方法速度上有优势，动态方法会节约内存；
+      3、两者是可以互相代替的。
+          1、声明
+            type
+              TAnimal = clss
+
+      4、类方法：
+      5、抽象方法：
+      6、消息方法：
+      7、构造方法：
+      8、析构方法：
+-------------------------------------------------------------------------------}
+uses
+  System.SysUtils,
+  Unit1 in 'Unit1.pas';
+
+var
+  Dog: TDog;
+//  Person: TPerson;
+
+
+
+begin
+  dog := TDog.Create();
+  dog.Run();
+{
+  Person := TPerson.Create();
+  Person.Talk();
+  Person.Free();
+}
+  Readln;
+end.
+

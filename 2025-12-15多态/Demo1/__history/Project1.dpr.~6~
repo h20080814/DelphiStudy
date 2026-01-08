@@ -1,0 +1,35 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{*------------------------------------------------------------------------------
+  多态：一类事物以多种形态存在。例如：动物类和狗类、猫类的关系
+  前提：两个类具备继承（派生）和实现这两种关系的一种。具体体现是父类接收或指向其子类对象
+  面向对象主要有三个特征：封装、继承、多态
+  作用：提高代码的复用性，方便我们对代码进行解耦（类和类之间不要出现直接的依赖关系）
+-------------------------------------------------------------------------------}
+uses
+  System.SysUtils,
+  Unit1 in 'Unit1.pas';
+
+procedure ShowAnimalRun(Animal: TAnimal);
+begin
+  Animal.Run;
+end;
+//var
+  //Animal: TAnimal;
+  //ColorDog: TColor;
+
+
+
+begin
+  ShowAnimalRun(TDog.create());
+  ShowAnimalRun(TCat.create());
+  //Animal := TDog.create();
+  //Animal := TCat.Create();
+  //Animal.Run;
+  //ColorDog := TDog.Create;
+  Readln;
+end.
+

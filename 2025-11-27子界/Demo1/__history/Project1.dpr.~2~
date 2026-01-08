@@ -1,0 +1,15 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{
+子界：定义取值的范围，防止越界，便于检查出不合法的数据
+
+}
+uses
+  System.SysUtils;
+
+begin
+
+end.

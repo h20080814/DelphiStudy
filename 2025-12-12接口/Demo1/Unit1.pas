@@ -1,0 +1,99 @@
+unit Unit1;
+
+interface
+
+type
+  IUsb = interface  //定义一个接口，Ctrl+Shift+G生成GUID
+    ['{2BDC0316-F05D-4253-A8C8-0BB431FF3F09}']
+    procedure Read();  //方法
+  end;
+
+  IUsb2 = interface(IUsb) //接口的继承
+    ['{ADB63339-B4A2-4299-B1FD-C1A373B180B2}']
+  end;
+
+  IUsb3 = interface(IUsb2) //接口也是单继承
+    ['{C67C63A8-5FEA-4D37-8EDD-A36040B879A6}']
+    procedure Write();
+  end;
+
+  IUsb4 = interface
+    procedure Add();
+  end;
+  //实现类
+    //TComputer=class(TInterfacedObject,IUsb ) //定义一个接口类，用来实现接口的方法
+      //procedure Read();
+  //委托实现
+
+  IEat = interface
+    procedure EatIng();
+  end;
+
+  TDog = class(TInterfacedObject, IEat)
+  public
+    procedure EatIng();
+  end;
+
+  TCat = class(TInterfacedObject, IEat)
+  private
+    FEat: IEat;
+  public
+    property Eat: IEat read FEat write FEat implements IEat;
+  end;
+
+  TComputer = class(TInterfacedObject) //定义一个父接口类，为的是子类即能够继承父类又能够实现接口的方法。Delphi是单继承。
+
+  end;
+
+  TLaptop = class(TComputer, IUsb3)//定义子类来继承父类而且实现接口的方法
+    procedure read();
+    procedure Write();
+  end;
+
+  TLaptop1 = class(TComputer, IUsb4, IUsb) //接口类可以实现多个接口
+    procedure Add();
+    procedure read();
+  end;
+
+implementation
+
+ {TLaptop }
+
+procedure TLaptop.read;
+begin
+
+end;
+
+{ TComputer
+
+procedure TComputer.Read;
+begin
+
+end;
+}
+procedure TLaptop.Write;
+begin
+
+end;
+
+{ TLaptop1 }
+
+procedure TLaptop1.Add;
+begin
+
+end;
+
+procedure TLaptop1.read;
+begin
+
+end;
+
+{ IDog }
+
+procedure TDog.EatIng;
+begin
+  Writeln('狗吃肉');
+end;
+
+end.
+

@@ -1,0 +1,49 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    btn2: TButton;
+    procedure btn1Click(Sender: TObject);
+    procedure btn2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure ShowMyMsg(var Msg: TMessage); message WM_USER + 1; //WM_USER 消息编号（1024前已满）
+
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+begin
+  ShowMessage('hello');
+  Application.MessageBox('World', '提示', 0);
+
+end;
+
+procedure TForm1.btn2Click(Sender: TObject);
+begin
+ //发送消息
+  SendMessage(Self.Handle, WM_USER + 1, 101, Integer(PChar('不容易')));
+end;
+
+procedure TForm1.ShowMyMsg(var Msg: TMessage);
+begin
+  ShowMessage(Msg.WParam.ToString);
+end;
+
+end.
+

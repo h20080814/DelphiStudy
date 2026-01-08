@@ -1,0 +1,18 @@
+unit Unit1;
+
+interface
+
+type
+  TColor = interface  //定义接口
+  end;
+
+  TAnimal = class(TInterfacedObject) //父类了继承接口类
+  end;
+
+  TDog = class(TAnimal, TColor) //子类继承了父类和接口
+  end;
+
+implementation
+
+end.
+

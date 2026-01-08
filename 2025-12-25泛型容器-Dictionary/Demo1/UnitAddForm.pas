@@ -1,0 +1,61 @@
+unit UnitAddForm;
+
+interface
+
+uses
+  System.Generics.Collections, Unit2, System.StrUtils, UnitDao, Winapi.Windows,
+  Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TAddForm = class(TForm)
+    lblName: TLabel;
+    lblAge: TLabel;
+    edtName: TEdit;
+    edtAge: TEdit;
+    btnSave: TButton;
+    btnCancel: TButton;
+    procedure btnSaveClick(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  AddForm: TAddForm;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  Unit1;
+
+procedure TAddForm.btnCancelClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+procedure TAddForm.btnSaveClick(Sender: TObject);
+var
+  GUIDMid: string;
+  Dictionary: TDictionary<string, TStudent>;
+  Stu: TStudent;
+  Key: string;
+begin
+  GUIDMid := MidStr(TGUID.NewGuid.ToString, 2, (Length(TGUID.NewGuid.ToString) - 2));
+  TDao.Add(TStudent.Create(GUIDMid, edtName.Text, StrToInt(edtAge.Text)));
+  self.close;
+  MainForm.mmo1.Lines.Clear;
+  Dictionary := TDao.ListStu();
+  for Key in Dictionary.Keys do begin
+    Dictionary.TryGetValue(Key, Stu);
+    MainForm.mmo1.Lines.Add(Stu.Id + ', ' + Stu.Name + ', ' + Stu.Age.ToString);
+  end;
+
+end;
+
+end.
+

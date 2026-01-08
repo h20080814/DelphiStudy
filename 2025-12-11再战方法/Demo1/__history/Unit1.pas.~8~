@@ -1,0 +1,49 @@
+unit Unit1;
+
+interface
+
+ //静态方法
+{
+type
+  TPerson = class
+  public
+    procedure Talk();
+}
+type
+  TAnimal = class
+
+  public
+    function Run(): Integer; virtual; //dynamic
+  end;
+  TDog = class(TAnimal)
+  public
+    function  Run(): Integer;  //重写/覆盖
+  end;
+
+
+implementation
+
+{ TPerson
+
+procedure TPerson.Talk;
+begin
+  Writeln('静态方法');
+end;
+}
+
+{ TAnimal }
+
+function TAnimal.Run: Integer;
+begin
+Writeln('虚拟方法动态方法');
+end;
+
+{ TDog }
+
+function TDog.Run: Integer;
+begin
+Writeln('四条腿跑');
+end;
+
+end.
+

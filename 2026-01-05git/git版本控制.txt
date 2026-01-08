@@ -1,0 +1,253 @@
+工作流程
+	源代码文件---->加入到暂存区---->从暂存区提交到本地仓库---->推送到远程仓库
+	1、初始化仓库	git init
+		是 Git 的基础命令，用于启动新项目或转换现有文件夹为版本控制仓库，是协作开发的起点。
+		基本功能
+			git init 用于在当前目录初始化一个新的 Git 仓库，创建 .git 子目录并设置版本控制环境。
+		工作流程
+			‌创建目录结构‌：在当前目录下生成 .git 子目录，包含所有版本控制文件（如 config、objects、refs）。
+			‌初始化配置‌：设置默认分支（如 main），配置用户信息（如 user.name 和 user.email）。
+			‌忽略文件‌：创建 .gitignore 文件（可选），用于排除不需要版本控制的文件（如日志、临时文件）。
+		主要用途
+‌			项目启动‌：快速创建新项目，开始版本控制。
+			‌本地仓库管理‌：将现有文件夹转换为 Git 仓库。
+			‌协作准备‌：为远程仓库同步做准备（如 git remote add）。
+		常用选项
+			--bare：创建无工作目录的裸仓库（用于服务器端）。
+			--template <path>：使用指定模板目录初始化仓库。
+			--initial-branch <name>：自定义初始分支名称（如 master）。
+		注意事项
+			‌目录冲突‌：若当前目录已存在 .git 子目录，会提示错误。
+			‌权限问题‌：需有写入权限才能创建 .git 目录。
+			‌配置建议‌：初始化后需配置用户名和邮箱（如 git config user.name "Your Name"）。
+		示例
+			# 在当前目录初始化新仓库
+			git init
+			# 创建裸仓库
+			git init --bare myrepo.git
+			# 自定义初始分支
+			git init --initial-branch develop
+
+	2、加入到暂存区	git add 文件名
+		是 Git 的核心命令，用于将工作区的变更纳入暂存区，是提交流程的起点。通过选项灵活控制添加行为，确保提交内容的精确性。
+		基本功能
+			git add 用于将工作区的修改文件添加到暂存区（索引），为下一次提交做准备。它是 Git 提交流程中的关键步骤，确保只有明确标记的更改被纳入版本历史。
+		工作流程
+			‌添加文件‌：将修改或新创建的文件从工作区复制到暂存区。
+			‌更新索引‌：更新 .git/index 文件，记录文件的最新状态。
+			‌准备提交‌：暂存区内容作为下一次 git commit 的基础。
+		主要用途
+			‌版本控制‌：将文件变更纳入版本管理。
+			‌提交准备‌：明确指定哪些更改需提交。
+			‌分支同步‌：在合并操作中暂存远程分支的更新。
+		常用选项
+			--all 或 -A：添加所有修改和新文件（等价于 git add .）。
+			--update 或 -u：仅更新已跟踪文件的变更（忽略新文件）。
+			--patch 或 -p：交互式选择性添加文件内容。
+			--force 或 -f：强制添加被忽略的文件。
+		示例
+			# 添加单个文件
+			git add README.md
+			# 添加所有修改文件
+			git add --all
+			# 交互式添加
+			git add --patch
+			# 强制添加忽略文件
+			git add --force .gitignore
+		关键点
+			‌暂存区作用‌：暂存区是提交前的临时区域，保存文件的快照。
+‌			提交机制‌：git commit 仅提交暂存区内容，未暂存的修改不会被记录。
+			‌忽略文件‌：默认跳过 .gitignore 中的文件，需显式添加。
+
+	3、从暂存区提交到本地仓库	git commit -m '本次提交的说明内容’
+		是 Git 的核心命令，用于将暂存区的变更永久化为提交记录，是版本控制的基础。通过选项灵活控制提交行为，确保变更历史的准确性和完整性。
+		3.1 在提交之前需要设置提交人的信息
+			 git config --global user.email "you@example.com"
+			 git config --global user.name "Your Name"
+		基本功能
+			git commit 用于将暂存区的变更提交到本地仓库，生成一个新的提交记录（commit）。它是 Git 提交流程的核心步骤，记录代码变更的历史。
+		工作流程
+			‌检查暂存区‌：确认暂存区已包含所有需提交的文件变更。
+			‌生成提交对象‌：创建一个新的提交对象（commit），记录变更内容和提交信息。
+			‌更新分支指针‌：移动当前分支的 HEAD 指针指向新提交对象。
+			‌记录历史‌：将提交对象添加到本地仓库的提交历史中。
+		主要用途
+			‌版本记录‌：保存代码变更，生成可追溯的历史。
+‌			协作同步‌：为远程仓库同步做准备（如 git push）。
+‌			分支管理‌：在分支切换时保留提交记录（如 git checkout）。
+		常用选项
+			-m <message>：直接在命令行指定提交信息（如 git commit -m "Fix bug"）。
+			-a：自动暂存所有已跟踪文件的修改（等价于 git add .）。
+			--amend：修改最近一次提交（如更新信息或添加文件）。
+			--no-verify：跳过提交前的钩子（如 pre-commit）。
+		关键点
+			‌提交信息‌：提交信息（commit message）需简洁明了（如 Fix bug in login），遵循项目规范（如 Conventional Commits）。
+			‌暂存区要求‌：只有暂存区的文件会被提交，未暂存的修改不会被记录。
+			‌分支影响‌：提交操作仅影响当前分支的 HEAD 指针，不影响其他分支。
+		示例
+			# 提交暂存区变更
+			git commit -m "Add new feature"
+			# 自动暂存并提交
+			git commit -a -m "Update README"
+			# 修改最近一次提交
+			git commit --amend
+
+	4、远程操作
+		4.1 下载远程仓库	git clone
+			基本功能
+				git clone 用于从远程仓库克隆（复制）整个项目到本地，包括所有历史记录和分支。它创建一个新的本地仓库目录，并自动设置远程跟踪分支。
+			工作流程
+				‌创建本地目录‌：在当前目录下新建一个与远程仓库同名的目录（或指定名称）。
+				‌初始化仓库‌：在新目录中执行 git init，创建 .git 子目录。
+				‌添加远程仓库‌：通过 git remote add 添加远程仓库 URL（默认命名为 origin）。
+				‌下载数据‌：执行 git fetch，从远程仓库下载所有分支和提交记录。
+				‌检出分支‌：自动切换到远程仓库的默认分支（如 main），并检出最新代码。
+			主要用途
+				‌项目初始化‌：快速获取开源项目或团队协作项目。
+‌				备份仓库‌：创建本地备份，避免远程仓库丢失。
+				‌多分支管理‌：自动同步所有远程分支到本地跟踪分支（如 origin/main）。
+			常用选项
+				--depth <depth>：浅克隆，仅下载最近的提交历史（节省空间）。
+				--branch <name>：指定克隆的分支（默认克隆所有分支）。
+				--bare：创建无工作目录的裸仓库（用于服务器端）。
+				--recurse-submodules：递归克隆子模块。
+			示例
+				# 克隆默认分支到同名目录
+				git clone https://github.com/user/repo.git
+				# 克隆到指定目录
+				git clone https://github.com/user/repo.git myproject
+				# 浅克隆最近 10 次提交
+				git clone --depth 10 https://github.com/user/repo.git
+				# 克隆特定分支
+				git clone --branch develop https://github.com/user/repo.git
+
+		4.2 推送	git push
+			基本功能
+				git push 用于将本地分支的提交推送到远程仓库，并更新远程分支的引用。它结合了 git fetch 和 git merge 的功能，简化了代码同步流程。
+			工作流程
+				‌执行 git fetch‌：从远程仓库下载最新数据到本地的远程跟踪分支（如 origin/main）。
+‌				自动执行 git merge‌：将远程跟踪分支的更新合并到当前工作分支（如 main）。
+				‌处理冲突‌：如果合并过程中出现冲突，Git 会暂停操作并提示手动解决冲突。
+			主要用途
+‌				快速同步‌：适用于代码更新频繁且无冲突的场景，一键完成下载和合并。
+‌				自动合并‌：减少手动操作，但可能因冲突导致中断。
+			常用选项
+				--rebase：使用变基（rebase）代替合并，保持提交历史线性。
+				--ff-only：仅允许快进（fast-forward）合并，拒绝创建合并提交。
+				--force：强制推送，覆盖远程分支（需谨慎使用）。
+			示例
+				# 从默认远程仓库 origin 的 main 分支获取更新并合并
+				git pull origin main
+				# 使用变基代替合并
+				git pull --rebase origin main
+
+		4.3 拉取	git pull
+			基本功能
+				git pull 是 Git 中用于从远程仓库获取最新更新并自动合并到当前工作分支的命令。它结合了 git fetch 和 git merge 的功能，简化了代码同步流程。
+			工作流程
+				‌执行 git fetch‌：从远程仓库下载最新数据到本地的远程跟踪分支（如 origin/main）。
+				‌自动执行 git merge‌：将远程跟踪分支的更新合并到当前工作分支（如 main）。
+‌				处理冲突‌：如果合并过程中出现冲突，Git 会暂停操作并提示手动解决冲突。
+			主要用途
+				‌快速同步‌：适用于代码更新频繁且无冲突的场景，一键完成下载和合并。
+				‌自动合并‌：减少手动操作，但可能因冲突导致中断。
+			常用选项
+				--rebase：使用变基（rebase）代替合并，保持提交历史线性。
+				--ff-only：仅允许快进（fast-forward）合并，拒绝创建合并提交。
+			示例
+				# 从默认远程仓库 origin 的 main 分支获取更新并合并
+				git pull origin main
+				# 使用变基代替合并
+				git pull --rebase origin main
+
+		在GitHub中，:ml-text[git push]和:ml-text[git pull]是核心操作，用于同步本地与远程仓库的代码变更。以下基于常见场景介绍其关键参数和用法。
+			‌git push用于将本地分支的提交推送到远程仓库，常用参数包括：‌
+				‌基本推送‌：git push <远程名> <本地分支名>:<远程分支名>，例如 git push origin main:main 将本地 main 分支推送到远程 origin 的 main 分支；若分支名相同可简写为 git push origin main。
+				‌设置追踪关系‌：使用 --set-upstream 或 -u 参数（如 git push -u origin main）后，后续推送或拉取可直接使用 git push 或 git pull，无需指定分支。
+‌				强制推送‌：添加 -f 或 --force 参数（如 git push -f origin main）会覆盖远程分支历史，需谨慎使用，避免覆盖他人工作。
+‌				推送特定分支‌：若未指定分支，会推送当前所在分支（需已设置追踪关系）。首次推送新分支时，通常需明确指定远程分支名。‌
+			‌git pull用于拉取远程分支的更新并合并到本地，常用参数包括：‌
+				‌基本拉取‌：git pull <远程名> <分支名>，例如 git pull origin main 从远程 origin 的 main 分支获取更新并合并到本地当前分支。
+				‌拉取并创建新分支‌：若本地无对应分支，可使用 git pull origin <远程分支名>:<本地分支名> 创建并切换到新分支。
+‌				分离头指针拉取‌：使用 --no-commit 参数（如 git pull --no-commit origin main）会拉取内容但不自动合并，允许先检查再决定合并。
+				‌拉取后仅合并不抓取‌：默认 git pull 等价于 git fetch 后 git merge，若仅需更新远程引用可先执行 git fetch。
+			    执行前建议先运行 git fetch 获取最新信息，再手动 merge 或 rebase 以避免意外冲突；若推送失败提示分支过时，应先 pull 更新本地代码。
+				Git Merge‌：将两个分支的更改合并到一个新提交中，保留分支合并的轨迹，生成合并提交（merge commit）。适用于团队协作，保留完整历史记录。
+					示例：git checkout main
+						    git merge feature
+
+				‌Git Rebase‌：将当前分支的提交重新应用到目标分支的顶部，重写提交历史，使历史线性化。适用于个人开发，保持提交历史线性。
+					示例：git checkout feature
+					    git rebase main
+‌		
+		4.4 Git Fetch	
+			是 Git 中最安全的远程操作命令，适用于需要手动控制合并流程的场景。
+			基本功能
+				git fetch 用于从远程仓库下载最新的数据到本地仓库，但不会自动合并或修改当前工作分支。它将远程仓库的最新状态保存在本地的远程跟踪分支（如 origin/main）中，而不会影响当前工作分支（如 main）。
+			工作流程
+‌				连接远程仓库‌：Git 连接到指定的远程仓库（默认为 origin）。
+				‌下载更新‌：获取远程仓库中所有与本地不同的更新，包括：新的提交（commits）、新的分支（branches）、标签（tags）
+				‌更新远程跟踪分支‌：将这些更新保存在本地的远程跟踪分支（如 remotes/origin/main）中。
+				‌保留本地分支不变‌：当前工作分支（如 main）不会被修改，只有远程跟踪分支更新。
+			主要用途
+‌				安全协作模式‌：允许开发者在不影响当前工作的情况下，查看远程仓库的最新更新。
+‌				合并前预览‌：通过 git fetch 获取更新后，可以手动使用 git merge 或 git rebase 决定是否合并。
+			常用选项
+				--all：从所有配置的远程仓库获取更新。
+				--append：在 .git/FETCH_HEAD 中添加获取的引用名称和对象名称，不覆盖旧数据。
+				--unshallow：将浅层仓库转换为完整仓库，获取更多历史记录。		
+			示例：
+				# 从默认远程仓库 origin 获取更新
+				git fetch
+				# 从指定远程仓库获取更新
+				git fetch origin
+				# 从多个远程仓库获取更新
+				git fetch --multiple origin another-repo
+
+	5、git status
+		是 Git 的核心命令，用于实时监控工作区和暂存区的状态，是提交前的必要检查步骤。通过选项灵活控制输出格式，确保操作的透明性和准确性。
+		基本功能
+			git status 用于显示当前工作目录和暂存区的状态，帮助开发者了解文件的修改情况和提交准备状态。它是 Git 工作流程中的关键命令，提供实时反馈。
+		工作流程
+			‌检查工作区‌：扫描工作目录，识别已修改、未跟踪和已删除的文件。
+			‌检查暂存区‌：对比暂存区与最新提交，显示已暂存的变更。
+			‌显示分支信息‌：展示当前分支名称和与远程分支的差异（如 origin/main）。
+		主要用途
+			‌实时监控‌：快速查看文件状态，避免提交错误。
+			‌提交准备‌：确认暂存区内容是否符合预期。
+			‌分支同步‌：检查远程分支的更新（如 Your branch is behind）。
+		常用选项
+			--short 或 -s：简化输出格式，便于快速阅读。
+			--branch 或 -b：仅显示分支信息（如 On branch main）。
+			--porcelain：生成机器可读的输出，用于脚本处理。
+		关键点
+			‌工作区状态‌：显示已修改（modified）、未跟踪（untracked）和已删除（deleted）的文件。
+			‌暂存区状态‌：标记已暂存的变更（Changes to be committed）。
+			‌分支差异‌：提示本地分支与远程分支的同步状态（如 behind、ahead）。
+		示例
+			# 显示完整状态信息
+			git status
+			# 简化输出格式
+			git status --short
+			# 仅显示分支信息
+			git status --branch
+		输出解析
+			On branch main
+			Your branch is up to date with 'origin/main'.
+
+			Changes to be committed:
+			  (use "git restore --staged <file>..." to unstage)
+		        modified:   README.md
+
+			Changes not staged for commit:
+			  (use "git add <file>..." to update what will be committed)
+			  (use "git restore <file>..." to discard changes in working directory)
+		        modified:   config.json
+
+			Untracked files:
+			  (use "git add <file>..." to include in what will be committed)
+		        newfile.txt
+
+
+
+

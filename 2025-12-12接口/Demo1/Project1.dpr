@@ -1,0 +1,146 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+{
+接口：
+定义了能够与一个对象进行交互操作的一组过程和函数。
+它描述了类或模块应该提供哪些方法、属性、事件或索引器，
+但不包含具体实现。
+接口和类最根本的不同是在接口中有一个全局唯一标识符（GUID）。
+Delphi类都派生于TObject,接口都派生于IUnKnown。
+接口的主要目的是为不相关的类提供通用的处理方式，
+并促进代码的重用、解耦和可维护性
+在Delphi的IDE中，Ctrl+Shift+G  可以为接口生成一个新的GUID
+  1、定义：只有方法的声明，不能直接实现；并且访问权限只能是public
+  type
+  IUsb = interface  //定义一个接口，Ctrl+Shift+G生成GUID
+    ['2BDC0316-F05D-4253-A8C8-0BB431FF3F09']
+    procedure Read();  //方法
+  end;
+
+  IUsb2 = interface(IUsb) //接口的继承
+    ['ADB63339-B4A2-4299-B1FD-C1A373B180B2']
+  end;
+
+  IUsb3 = interface(IUsb2) //接口也是单继承
+    ['C67C63A8-5FEA-4D37-8EDD-A36040B879A6']
+    procedure Write();
+  end;
+
+   IUsb4=interface
+    procedure Add();
+  end;
+  //实现类
+    //TComputer=class(TInterfacedObject,IUsb ) //定义一个接口类，用来实现接口的方法
+      //procedure Read();
+
+  TComputer = class(TInterfacedObject) //定义一个父接口类，为的是子类即能够继承父类又能够实现接口的方法。Delphi是单继承。
+
+  end;
+
+  TLaptop = class(TComputer, IUsb3)//定义子类来继承父类而且实现接口的方法
+    procedure read();
+    procedure Write();
+  end;
+  TLaptop1=class (TComputer,IUsb4,IUsb) //接口类可以实现多个接口
+    procedure Add();
+     procedure read();
+  end;
+ 2、
+  implementation
+
+ //TLaptop
+
+procedure TLaptop.read;
+begin
+
+end;
+
+ TComputer
+
+procedure TComputer.Read;
+begin
+
+end;
+
+procedure TLaptop.Write;
+begin
+
+end;
+
+ TLaptop1
+
+procedure TLaptop1.Add;
+begin
+
+end;
+
+procedure TLaptop1.read;
+begin
+
+end;
+
+end.
+
+  implements指示符：委托实现，作用是委托另一个类或接口实现接口中的某个方法。
+      好处是：1、允许以无冲突的方式进行接口聚合（聚合是COM中的概念），作用是把多个类合在一起共同完成一个任务；
+              2、能够延后占用实现接口所需的资源，直到确实需要资源。例如一个接口很少用到，实现它太耗费资源，用
+                implements指示符后，可以只在属性被访问时才创建一个类来实现接口。
+     type
+      TSomeClass = class(TInterfaceObjeckt,IFoo);
+        function GetFoo : TFoo;
+        property Foo : TFoo read GetFoo implements IFoo;
+     end;
+    声明  在Unit1
+      IEat = interface
+        procedure EatIng();
+      end;
+
+     TDog = class(TInterfacedObject, IEat)
+        public
+          procedure EatIng();
+     end;
+
+     TCat = class(TInterfacedObject, IEat)
+        private
+          FEat: IEat;
+        public
+        property Eat: IEat read FEat write FEat implements IEat;
+     end;
+   实现
+    //IDog
+      procedure TDog.EatIng;
+        begin
+          Writeln('狗吃肉');
+        end;
+   调用
+     var
+      Cat: TCat;
+
+     begin
+      Cat := TCat.Create;
+      Cat.Eat := TDog.Create;
+      Cat.Eat.EatIng;
+
+  Readln;
+end.
+
+  }
+uses
+  System.SysUtils,
+  Unit1 in 'Unit1.pas';
+
+var
+  Cat: TCat;
+
+begin
+  Cat := TCat.Create;
+  Cat.Eat := TDog.Create;
+  Cat.Eat.EatIng;
+
+  Readln;
+end.
+

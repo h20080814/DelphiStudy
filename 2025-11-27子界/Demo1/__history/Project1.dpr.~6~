@@ -1,0 +1,58 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{
+子界：定义取值的范围，防止越界，便于检查出不合法的数据
+    格式：type 子界类型标识符=常量1（下界）..常量2（上界）;
+     type
+        TSubrange = 1..10;
+        TSubrange1 = 'a'..'z';
+    注意：下界和上界必须是有序的数据类型（整数、字符、枚举等）同一顺序类型，上界的序号必须大于下界的序号
+          上界大于或等于下界
+ Color := Ecolors.RED;
+  Week := EWeek.SUN;
+  Writeln(ord(Color), ',', ord(Week)); //ord ordinal序数，表示事物在序列中的顺序或位置
+}
+uses
+  System.SysUtils;
+
+type
+        {枚举}
+  EColors = (RED, GREEN, BLUE);
+        {子界}
+
+  TSubrangeNumber = 1..10;
+
+  TSubrange1Char = 'a'..'z';
+      {枚举-子界,调用时还是枚举的方法}
+
+  TSubrangeColors = EColors.RED..EColors.BLUE;
+
+//var
+//  Colors: EColors;
+
+
+//子界的下标，子界的上标
+procedure TSubrangeDemo();
+begin
+  Writeln('数据类型是枚举-子界EColors的下标是',ord(Low(EColors)));
+  Writeln('数据类型是枚举-子界EColors的上标是',ord(High(EColors)));
+  Writeln('');
+    Writeln('数据类型是整数的子界TSubrangeNumber的下标是', Low(TSubrangeNumber));
+  Writeln('数据类型是整数的子界TSubrangeNumber的上标是', High(TSubrangeNumber));
+  Writeln('');
+  Writeln('数据类型是字符的子界TSubrange1Char的下标是', Low(TSubrange1Char));
+  Writeln('数据类型是字符的子界TSubrange1Char的上标是', High(TSubrange1Char));
+  Writeln('');
+  Writeln('数据类型是枚举-子界TSubrangeColors的下标是',ord(Low(TSubrangeColors)));
+  Writeln('数据类型是枚举-子界TSubrangeColors的上标是',ord(High(TSubrangeColors)));
+  Writeln('');
+end;
+
+begin
+  TSubrangeDemo();
+  readln;
+end.
+

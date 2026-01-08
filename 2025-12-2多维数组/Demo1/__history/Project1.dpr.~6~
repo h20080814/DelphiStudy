@@ -1,0 +1,52 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils;
+ {多维数组  Multidimensional Dynamic Arrays
+    声明一个动态的二维数组
+    type
+      TStringDynamicArray = array of array of string;
+    声明一个静态的二维数组
+    type
+    TStingStaticArray = array[0..3] of array[0..4] of string;
+
+ }
+
+type
+  TStringDynamicArray = array of array of string;
+
+type
+  TStringStaticArray = array[0..2] of array[0..2] of string;
+
+var
+  StrDynArray: TStringDynamicArray;
+  StrStatArray: TStringStaticArray;
+  DynArrayIndexFir: integer;
+  DynArrayIndexFSec: Integer;
+
+
+//初始化动态的二维数组并遍历
+procedure InitArray();
+begin
+  StrDynArray := [['你好', '中国', '母亲'], ['伟大', '回归', '重新'], ['沧桑', '人生', '古龙']];  //中括号代表数组1，其中的内容是数组2
+  for DynArrayIndexFir := Low(StrDynArray) to High(StrDynArray) do begin
+    for DynArrayIndexFSec := Low(StrDynArray[DynArrayIndexFir]) to high(StrDynArray[DynArrayIndexFir]) do begin
+      Writeln(DynArrayIndexFir, ',', DynArrayIndexFSec, ',', StrDynArray[DynArrayIndexFir][DynArrayIndexFSec]);
+    end;
+  end;
+  //静态数组调用
+  StrStatArray[0][1] := '特朗普';
+  Writeln(StrStatArray[0][1]);
+
+end;
+
+begin
+  InitArray();
+
+  Readln;
+end.
+

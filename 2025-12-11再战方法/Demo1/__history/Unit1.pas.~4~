@@ -1,0 +1,22 @@
+unit Unit1;
+
+interface
+ //静态方法
+
+type
+  TPerson = class
+  public
+    procedure Talk();
+  end;
+
+implementation
+
+{ TPerson }
+
+procedure TPerson.Talk;
+begin
+  Writeln('静态方法');
+end;
+
+end.
+

@@ -1,0 +1,73 @@
+unit Unit1;
+
+interface
+
+ //静态方法
+{
+type
+  TPerson = class
+  public
+    procedure Talk();
+}
+type
+  TAnimal = class
+  public
+    function Run(): Integer; virtual; //dynamic
+    class procedure Eat();
+    constructor create1();
+    procedure Sleep(); virtual; abstract;
+  end;
+
+  TDog = class(TAnimal)
+  public
+    function Run(): Integer;  //重写/覆盖
+    constructor create2();
+    procedure Sleep();
+  end;
+
+implementation
+
+{ TPerson
+
+procedure TPerson.Talk;
+begin
+  Writeln('静态方法');
+end;
+}
+
+{ TAnimal }
+
+constructor TAnimal.create1;
+begin
+  Writeln('构造方法');
+end;
+
+class procedure TAnimal.Eat;
+begin
+  Writeln('吃');
+end;
+
+function TAnimal.Run: Integer;
+begin
+  Writeln('虚拟方法动态方法');
+end;
+
+{ TDog }
+
+constructor TDog.create2;
+begin
+  Writeln('狗的构造方法');
+end;
+
+function TDog.Run: Integer;
+begin
+  Writeln('四条腿跑');
+end;
+
+procedure TDog.Sleep;
+begin
+  Writeln('不能吃人');
+end;
+
+end.
+

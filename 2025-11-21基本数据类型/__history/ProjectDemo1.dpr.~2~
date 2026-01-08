@@ -1,0 +1,25 @@
+program ProjectDemo1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils;
+
+begin
+ {
+    注释
+ }
+ // Delphi学习c系语言的注释方式
+ {*
+   注释
+   命名规范
+    1、见名知意：尽量使用英文。
+    2、驼峰原则：
+      大驼峰  StudentName    每个单词的首字母大写
+      小驼峰  studentName     由第二个单词开始，每个单词的首字母大写
+
+ *}
+end.
+

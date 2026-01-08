@@ -1,0 +1,140 @@
+﻿program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{*------------------------------------------------------------------------------
+  继承（派生）：继承和派生本质上是‌同一个过程的不同视角‌，没有实质性区别 。
+                继承强调子类“获得”父类属性，派生强调父类“产生”子类
+      派生：从父类角度看，指已有类派生出新类，扩展新功能。
+            派生指类和类之间的关系
+      继承‌：从子类角度看，指新类（子类）获取已有类（父类）的特性，如代码复用
+            继承更多的是指对象与对象之间的关系
+
+      特点：1、提高代码的复用
+            2、Delphi中是单继承，可以是多层继承
+      构造方法：
+         1、第一种方法：
+          1、定义  //在interface下
+             type
+                TAnimal = class //定义一个父类，一旦派生出多个子类，父类就具备了多态性
+                private        //私有的，不能被继承，不同单元无法直接访问
+                  FWeight: Integer;
+                public
+                  constructor create();  //定义一个构造方法
+                  property Weight: integer read FWeight write FWeight;
+             end;
+
+                Tdog = class(TAnimal)    //定义一个子类（派生）,产生TAnimal的继承关系
+                public
+                  constructor create();
+                end;
+
+                Tcat = class(TAnimal)   //定义一个子类（派生）,
+                end;                    //产生对TAnimal的继承关系
+            2、实现  在implementation下  //Ctrl+Shift+C
+              //TAnimal
+                constructor TAnimal.create;
+                  begin
+                    //类字段初始化
+                     Writeln('动物类');
+                  end;
+
+               //Tdog
+                constructor Tdog.create;
+                  begin
+                     Writeln('狗类');
+                  end;
+               //调用
+               var
+                 Dog: Tdog;
+              begin
+                  Dog := Tdog.create();
+                  Dog.Weight := 50;
+                  Writeln(Dog.Weight);
+                  Readln;
+                end.
+      2、第二种方法： //直接调用父类方法
+          1、定义  //在interface下
+             type
+               TAnimal = class //定义一个父类，一旦派生出多个子类，父类就具备了多态性
+                private        //私有的
+                  FWeight: Integer;
+                public
+                  constructor create(FWeight:Integer);  //定义一个构造方法并传递参数
+                  property Weight: integer read FWeight write FWeight;
+                end;
+               Tdog = class(TAnimal)    //定义一个子类（派生）,产生TAnimal的继承关系
+                public
+                  constructor create();
+               end;
+          2、实现  在implementation下  //Ctrl+Shift+C
+              //TAnimal
+              constructor TAnimal.create(FWeight: Integer);
+                begin
+                 Self.FWeight := FWeight;
+                end;
+             //Tdog
+              constructor Tdog.create;
+                begin
+                 Writeln('狗类');
+                 inherited create(51);  //继承父类TAnimal.create的方法并传递参数
+                end;
+          3、调用
+            var
+             Dog: Tdog;
+             begin
+               dog := Tdog.create();
+               Writeln(Dog.Weight);
+               Readln;
+              end.
+继承中的重写（覆盖）override ：
+      1、定义  //在interface下
+             type
+               TAnimal = class //定义一个父类，一旦派生出多个子类，父类就具备了多态性
+                public
+                  procedure GetName();virtual; //声明一个虚方法
+                end;
+               Tdog = class(TAnimal)    //定义一个子类（派生）,产生TAnimal的继承关系
+                public
+                  procedure GetName();override ;//override 类名相同，声明一个狗类的重写（覆盖）的方法
+               end;
+      2、实现 在implementation下  //Ctrl+Shift+C
+          procedure TAnimal.GetName;
+            begin
+              Writeln('动物类的方法');
+            end;
+          procedure Tdog.GetName;
+            begin
+             inherited; // 无参数的话，则调用（继承）的是父类中同名的方法 ，如有参数，则调用（继承）参数指定名称的父类的方法
+             Writeln('狗类的方法');
+            end;
+      3、调用 在uses下面
+          var
+           Dog: Tdog;
+          begin
+            Dog := Tdog.create();
+            Dog.GetName;
+            Readln;
+          end.
+
+      访问权限：
+      析构（销毁）：
+
+-------------------------------------------------------------------------------}
+uses
+  System.SysUtils,
+  UnitExtends in 'UnitExtends.pas';
+
+var
+  Dog: Tdog;
+
+begin
+  Dog := Tdog.create();
+
+  //Dog.Weight := 50;
+  Writeln(Dog.Weight);
+  Dog.GetName;
+  Readln;
+end.
+

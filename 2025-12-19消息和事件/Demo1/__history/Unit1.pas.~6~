@@ -1,0 +1,36 @@
+unit Unit1;
+
+interface
+
+uses
+  System.SysUtils, Winapi.Windows, Vcl.Dialogs;
+
+type
+  TMyMsg = record   // 用户传递消息的结构
+    MsgNum: Cardinal;  //消息号
+    MsgText: string;   //消息的内容
+  end;
+
+  TMsgAccepter = class(TObject)  //消息处理类 ,分发消息
+  private
+    procedure AcceptMsg2000(var Msg: TMyMsg); message 2000;  //用于处理消息编号是2000的消息
+  public
+    procedure DefaultHandler(var message); override; //默认处理方法
+  end;
+
+implementation
+
+{ TMsgAccepter }
+
+procedure TMsgAccepter.AcceptMsg2000(var Msg: TMyMsg);
+begin
+  ShowMessage('接收到的消息编号是：' + Msg.MsgNum.ToString + ' , ' + '消息内容是：' + Msg.MsgText);
+end;
+
+procedure TMsgAccepter.DefaultHandler(var message);
+begin
+  ShowMessage('玩呢');
+end;
+
+end.
+

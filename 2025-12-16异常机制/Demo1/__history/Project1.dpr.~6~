@@ -1,0 +1,39 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{*------------------------------------------------------------------------------
+异常：是指一个异常类的对象。Delphi的VCL中，所有异常类都派生于Exception类。
+      有Messsage属性可以报告异常发生的原因 。使用raise保留字来抛出一个异常对象。
+      如：raise Exception.Create('An error ocurred');
+-------------------------------------------------------------------------------}
+uses
+  System.SysUtils;
+ //自定义一个异常处理类
+
+type
+  EMathException = class(Exception)
+  end;
+
+procedure MyDivFun(Num1, Num2: Integer);
+begin
+  if Num2 = 0 then begin
+    raise EMathException.Create('除数不能为0,自定义');    //子类抛出一个异常
+    raise Exception.Create('除数不能为0');      //父类抛出一个异常,等同于Result:=Exception.Create ('除数不能为0');Exit;
+  end;
+end;
+
+begin
+  try
+    MyDivFun(2, 0);
+    { TODO -oUser -cConsole Main : Insert code here }
+  except
+    on E{声明一个变量}: EMathException{类型} do   //异常子类
+      Writeln(E.ClassName, ': ', E.Message);
+    on E{声明一个变量}: Exception{类型} do   //异常父类
+      Writeln(E.ClassName, ': ', E.Message);
+  end;
+  Readln;
+end.
+

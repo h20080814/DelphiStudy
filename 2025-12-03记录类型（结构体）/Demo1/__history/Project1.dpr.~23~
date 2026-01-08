@@ -1,0 +1,199 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{
+记录类型（结构体）
+    使用关键字record ...end;将几种不同的数据类型整合到一起。
+
+
+}
+uses
+  System.TypInfo,
+  System.SysUtils;
+
+type
+  //定义一个学生信息的记录类型 （结构体）
+  Tstudent = record
+    Id: string;    //学号
+    Name: string;   //姓名
+  end;
+  //定义存储学生信息的容器为记录类型（结构体）的数组
+
+  TStudentTable = array of Tstudent;
+
+var
+  StudentTable: TStudentTable;  //整个表容器（数组）的调用
+
+  //1 添加一条学生信息
+
+procedure AddStudent();
+var
+  Student: Tstudent;   //一条记录的调用
+  ArrayLength: Integer;
+  UName: string;
+  Uuid: TGUID;  //唯一标识
+
+begin
+  //获取学生信息表中的信息条数
+  ArrayLength := Length(StudentTable);  //数组的长度
+  Writeln('您选择了添加功能,请输入学生姓名：');
+  Readln(UName);
+  CreateGUID(Uuid);   //产生唯一标识
+  Student.Id := GUIDToString(Uuid);
+  //将用户输入的学生姓名赋给记录类型的name变量
+  Student.Name := UName;
+  //将学生信息保存到StudentTable表中 \
+  Insert(Student, StudentTable, ArrayLength - 1);
+  StudentTable[ArrayLength] := Student;
+  //判断保存是否成功
+  if Length(StudentTable) > ArrayLength then begin
+    Writeln('添加成功！');
+  end
+  else begin
+    Writeln('添加失败！');
+  end;
+end;
+
+//2 删除学生信息
+procedure DeleteStudent();
+var
+  Student: Tstudent;
+  UName: string;
+  IsTrue: string;
+  StudentIndex: Integer;
+  ArrayLength: Integer;
+begin
+  Writeln('您选择了删除功能，请输入学生姓名：');
+  Readln(UName);
+  StudentIndex := 0;
+  ArrayLength := Length(StudentTable);  //数组的长度
+  //遍历数组中的所有数据
+  for Student in StudentTable do begin
+    with Student do begin
+      if Name = UName then begin
+       //删除一般需要用户二次确认
+        Writeln('您确认要删除【', id, Name, '】信息吗？Y/N');
+        Readln(IsTrue);
+        if IsTrue = 'Y' then begin
+          Delete(StudentTable, StudentIndex, 1);
+        //判断删除是否成功
+          if Length(StudentTable) < ArrayLength then begin
+            Writeln('删除成功！');
+          end
+          else begin
+            Writeln('删除失败！');
+          end;
+        end;
+        Exit;
+      end;
+    end;
+    inc(StudentIndex);
+  end;
+
+end;
+
+//修改学生信息
+procedure UpdateStudent();
+var
+  UName: string;
+  I: Integer;
+  Isexist: Boolean;
+begin
+  Isexist := False;
+  Writeln('您选择了修改功能,请输入要修改的学生姓名：');
+  Readln(UName);
+  for I := Low(StudentTable) to High(StudentTable) do begin
+    with StudentTable[I] do begin
+      if name = UName then begin
+        Writeln('请输入新的学生姓名；');
+        Readln(UName);
+        name := UName;
+        Break;
+      end;
+    end;
+   // inc(I);
+  end;
+  if not Isexist then begin
+    Writeln('修改失败，查无此人！');
+  end;
+end;
+//4 查询所有信息
+
+procedure QueryStuentList();
+var
+  Student: Tstudent;
+begin
+  Writeln('您选择了查询功能');
+  for Student in StudentTable do begin
+    with Student do begin
+      Writeln('编号：', Id, #09, '姓名：', Name);
+    end;
+  end;
+end;
+
+//选择菜单
+
+procedure ShowMenu();
+begin
+  Writeln('');
+  Writeln('******学生信息管理系统******');
+  Writeln('');
+  Writeln('1、添加信息');
+  Writeln('2、删除信息');
+  Writeln('3、修改信息');
+  Writeln('4、查询信息');
+  Writeln('');
+  Writeln('****************************');
+  Writeln('');
+end;
+//用户选择功能
+
+procedure UserChoose();
+var
+  UserChooseIndex: Integer;
+begin
+  Writeln('请选择您要使用的功能（1-4）：');
+//获取用户选择的功能编号
+  Readln(UserChooseIndex);
+//判断用户选择的编号
+  case UserChooseIndex of
+    1:
+      begin
+        AddStudent();
+      end;
+    2:
+      begin
+        DeleteStudent();
+      end;
+    3:
+      begin
+        UpdateStudent();
+      end;
+    4:
+      begin
+        QueryStuentList();
+      end;
+  else
+    begin
+      Writeln('请选择正确的功能编号！（1-4）');
+    end;
+  end;
+end;
+
+begin
+  //初始化学生信息表（调用）
+  StudentTable := [];
+  Writeln('前面的条数', Length(StudentTable));
+  //无限循环菜单和功能选择
+  while True do begin
+
+    ShowMenu();
+    UserChoose();
+    Writeln('后面的条数', Length(StudentTable));
+  end;
+  Readln;
+
+end.
+

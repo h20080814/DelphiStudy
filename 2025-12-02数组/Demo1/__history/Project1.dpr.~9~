@@ -1,0 +1,57 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+ {
+ 数组：按照一定编号存放了一堆类型相同数据的容器。
+      管理相同类型的数据时更方便
+      用法：
+          定义
+          静态数组：array[indexType1,...,indexTypeN] of baseType;
+          注意事项
+            1、数组在使用之前必须要声明长度（下标、元素总数）
+
+ }
+uses
+  System.SysUtils;
+
+type
+  Myarray = array[0..10] of Char;  //静态数组声明
+
+var
+  NameArray: Myarray;
+  IndexArray: Integer;
+  Element: Char;
+
+procedure TestStaticArray(); //测试数组的使用方法
+begin
+  NameArray[0] := 'x';
+  NameArray[1] := 'a';
+  NameArray[2] := 'q';
+  NameArray[3] := 'e';
+  NameArray[4] := 'w';
+  NameArray[5] := 'u';
+  NameArray[6] := 'i';
+  NameArray[7] := 'i';
+  NameArray[8] := 'o';
+  NameArray[9] := 'p';
+  NameArray[10] := 'p';
+  {
+  for IndexArray := Low(NameArray) to High(NameArray) do begin   //遍历静态数组元素
+    Writeln(NameArray[IndexArray]);
+  end;
+   }
+  Writeln(length(NameArray));  //length 长度函数
+
+  for Element in NameArray do begin   //遍历静态数组元素,delphi7不能使用这个循环方法
+    Writeln(Element);
+  end;
+end;
+
+begin
+  TestStaticArray();
+
+  Readln;
+end.
+

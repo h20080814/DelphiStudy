@@ -1,0 +1,67 @@
+﻿program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{*------------------------------------------------------------------------------
+  继承（派生）：继承和派生本质上是‌同一个过程的不同视角‌，没有实质性区别 。
+                继承强调子类“获得”父类属性，派生强调父类“产生”子类
+      派生：从父类角度看，指已有类派生出新类，扩展新功能。
+            派生指类和类之间的关系
+      继承‌：从子类角度看，指新类（子类）获取已有类（父类）的特性，如代码复用
+            继承更多的是指对象与对象之间的关系
+
+      特点：1、提高代码的复用
+            2、Delphi中是单继承，可以是多层继承
+      构造方法：
+          1、定义
+
+      访问权限：
+      析构（销毁）：
+
+-------------------------------------------------------------------------------}
+uses
+  System.SysUtils,
+  Unit1 in 'Unit1.pas';
+
+type
+  TAnimal = class //定义一个父类，一旦派生出多个子类，父类就具备了多态性
+    FWeight: Integer;
+  public
+    constructor create();  //定义一个构造方法
+    property Weight: integer read FWeight write FWeight;
+  end;
+
+  Tdog = class(TAnimal)    //定义一个子类（派生）,产生TAnimal的继承关系
+  public
+    constructor create();
+  end;
+
+  Tcat = class(TAnimal)   //定义一个子类（派生）,
+  end;                    //产生对TAnimal的继承关系
+
+{ TAnimal }
+
+constructor TAnimal.create;
+begin
+{类字段初始化}
+  Writeln('动物类');
+end;
+
+{ Tdog }
+
+constructor Tdog.create;
+begin
+  Writeln('狗类');
+end;
+
+var
+  Dog: Tdog;
+
+begin
+  dog := Tdog.create();
+  Dog.Weight := 50;
+  Writeln(Dog.Weight);
+  Readln;
+end.
+

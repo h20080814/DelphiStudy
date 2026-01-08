@@ -1,0 +1,34 @@
+program Project2;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+ {*------------------------------------------------------------------------------
+   case语句
+    标准写法
+      case True of
+
+      end;
+ -------------------------------------------------------------------------------}
+uses
+  System.SysUtils;
+
+var
+  i: Integer;
+
+begin
+  i := 2;
+  case i of
+    1:
+      begin
+        Writeln('第一美女：林黛玉');
+      end;
+    2:
+      begin
+        Writeln('第一美女：张曼玉');
+      end;
+  end;
+  Readln;
+
+end.
+

@@ -1,0 +1,53 @@
+program Project2;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils;
+  //声明动态数组
+
+type
+  StringArray = array of string;   //标准写法
+
+var
+  NameArray: StringArray;
+  ConcatArray: string;
+  ConcatArray1: string;
+  ConcatArray2: string;
+  MyElem: string;
+  MyElemIndex: Integer;
+
+ //动态数组初始化 ，遍历数组元素
+procedure DynamicArray();
+begin
+  //设置动态数组长度
+  SetLength(NameArray, 20);  //只设置长度，并未添加元素
+  NameArray := StringArray.Create('林青霞', '张曼玉');   //设置长度并添加元素，覆盖上一条语句的定义长度
+  NameArray := ['林青霞', '那英', '刀郎', '周迅', '张曼玉']; //设置长度并添加元素，覆盖上两条语句的定义长度
+  Writeln(length(NameArray), ',', Low(NameArray), ',', High(NameArray));
+  {第一种方法
+  for MyElemIndex := Low(NameArray) to High(NameArray) do begin
+    Writeln(NameArray[MyElemIndex]);
+
+  end;
+  }
+  { 第二种方法
+  for MyElem in NameArray do begin
+    Writeln(MyElem);
+  end;
+  }
+  //第三种方法
+  ConcatArray1 := StringArray.Create('林青霞', '那英');
+  ConcatArray2 := stringarray.Create('光头强', '小丸子');
+  ConcatArray := Concat(ConcatArray1, ConcatArray2);
+  Writeln(ConcatArray);
+end;
+
+begin
+  DynamicArray();
+  Readln;
+
+end.
+

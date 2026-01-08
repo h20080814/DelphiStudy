@@ -1,0 +1,81 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+{*------------------------------------------------------------------------------
+ 指针： 存储了内存地址的变量
+      作用：效率高
+          @ 获取地址
+          ^ 定义指针
+      分类：
+          类型指针  具有明确的数据类型
+            使用方法：
+                1、 1、定义/声明一个整数类型的指针
+                   var
+                      PInt:^Integer ; //定义一个整数类型的指针
+                              ^Integer:=PInteger  等同
+                            PInteger是封装好的指针类型
+                2、定义/声明一个变量
+                  var
+                      i:integer;  //整数型变量
+                3、把变量i的地址赋给指针PInt
+                  begin
+                    i:= 100;
+                    PInt:=@i; //把i的地址赋给指针变量
+                    Writeln(Integer(PInt));
+                    Writeln(Integer(PInt).ToHexString);  //004258B8 16进制
+                    PInt:= Pointer($004258B8); //把16进制的地址赋给指针变量
+                    Writeln(PInt^); 获得地址指针中的值
+                  end;
+                4、地址指针初始化（分配内存空间）
+                  begin
+                    New(PInt);
+                    PInt^:=100;
+                  end;
+                 5、释放地址指针
+                  begin
+                  Dispose(PInt);
+                  end;
+
+          无类型指针  没有数据类型 ，可以指向任何地址
+      使用方法：
+
+          1、定义/声明一个指针
+              var
+                 viod: Pointer;
+          2、无类型指针初始化，通过这种方式能够分配一个指定大小的空间给指针
+              GetMem(viod, 1024);
+          3、释放无类型指针
+              FreeMem(viod);
+
+-------------------------------------------------------------------------------}
+uses
+  System.SysUtils;
+
+var
+  i: Integer; //整数型变量
+
+var
+  PInt: PInteger;
+
+var
+  viod: Pointer;
+
+begin
+  i := 100;
+  PInt := @i;
+  Writeln(Integer(@i));
+  Writeln(Integer(PInt).ToHexString);  //004258B8
+  //pint := Pointer($004258B8);
+  Writeln(PInt^);
+  New(PInt);      //初始化
+  PInt^ := 300;
+  Writeln(PInt^);
+  Dispose(PInt); //释放
+  GetMem(viod, 1024); //无类型指针初始化，通过这种方式                      能够分配一个指定大小的空间给指针
+  FreeMem(viod);  //释放无类型指针
+
+  Readln;
+end.
+

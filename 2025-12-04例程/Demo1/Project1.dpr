@@ -1,0 +1,124 @@
+program Project1;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils;
+
+{*------------------------------------------------------------------------------
+  常量const的定义是只能获取其值，不能改变其值。
+  例程
+    Delphi中独有的称呼，其实例程只是将具有某一个功能
+    的代码片段进行封装
+    包括：1、过程
+          2、函数
+          过程和函数的区别在于有没有返回值
+    作用：
+          1、可以解决命名冲突的问题
+          2、提高代码的重复利用率
+          3、提高代码的可维护性
+    使用：
+          1、定义：
+            过程：procedrue 名称();
+    //传递值            procedrue 名称(x : integer; y : integer);
+    //传递地址          procedure 名称(var x : integer; var y : integer);
+//传递的值的个数不固定  procedure 名称(const A : array of integer);
+                          begin
+
+                          end;
+           函数：function 名称() : Integer;
+           /返回值Result为integer
+   //传递值             function 名称(x : integer; y : integer) : Integer;
+   //传递地址           function 名称(var x : integer; var y : integer) : Integer;
+
+                          begin
+
+                          end;
+  函数重载：关键字overload;函数名相同，参数列表不同（指类型或个数）
+            与其函数名相同的函数的后面也需要添加overload;
+-------------------------------------------------------------------------------}
+//获取返回值结果的方法
+//1 返回值：通过Result 获取结果
+function Add(Num1: Integer; Num2: Integer): Integer; overload;
+begin
+  Result := Num1 + Num2;
+  Exit;
+  Writeln('*******');
+end;
+
+//2  返回值：通过引用地址获取结果
+function Sub(Num1, Num2: Integer; var sum: Integer): Integer;
+begin
+  sum := Num1 - Num2;
+  Exit;
+end;
+
+//3 返回值：通过Out获取结果
+function Mul(Num1, Num2: Integer; out sum: Integer): Integer;
+begin
+  sum := Num1 * Num2;
+  Exit;
+end;
+
+//4  返回值：通过函数名称获取结果
+function GetResultByFunName(): Integer;
+begin
+  GetResultByFunName := 5 + 6
+end;
+
+ //函数重载
+
+function Add(Num1, Num2: Double): Double; overload;
+begin
+  Result := Num1 + Num2;
+end;
+
+//前置声明：提前声明，告诉编译器有这样一个函数放在后面
+function ForwardFun2(Num1, Num2: Integer; var Sum2: Integer): Integer; forward; //前置声明
+
+function ForwardFun1(Num1, Num2: Integer; var Sum1: Integer): Integer;
+var
+  sum2: Integer;
+begin
+  ForwardFun2(2, 3, sum2);  //调用函数 ForwardFun2
+  Sum1 := Num1 + Num2 + sum2;
+  Exit;
+
+end;
+
+function ForwardFun2(Num1, Num2: Integer; var Sum2: Integer): Integer;
+begin
+  Sum2 := Num1 + Num2;
+end;
+
+var
+  Sum2, Sum1, sum: Integer;
+
+begin
+ { 通过Result获取结果
+  sum := Add(1, 2);
+  Writeln(sum);
+  }
+  { 通过引用地址获取结果
+  Sub(3, 2, sum);
+  Writeln(sum);
+  }
+  { 通过Out获取结果
+  Mul(3, 2, sum);
+  Writeln(sum);
+  }
+  { 通过函数名称获取结果
+  Writeln(GetResultByFunName());
+  }
+  { 函数重载,通过参数值的类型来决定调用哪个函数
+  Writeln(Add(4,5));
+  Writeln(Add(4.1,5));
+   }
+  ForwardFun1(1, 2, Sum1);
+  //Sub(3, 2, sum);
+  Writeln(Sum1);
+  Readln;
+end.
+
