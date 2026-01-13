@@ -1,0 +1,112 @@
+unit UnitThread;
+
+interface
+
+uses
+  UnitDomain, System.SysUtils, System.Classes;
+
+type
+  TProductionThread = class(TThread)   //生产线程类
+  private
+    FProduct: TProduct;
+  protected
+    procedure Execute; override;
+  public
+    constructor create; overload;  //构造方法，用于创建对象
+    constructor create(Product: TProduct); overload;
+  end;
+
+  TConsumptionTread = class(TThread)  //消费线程类
+  private
+    FProduct: TProduct;
+  protected
+    procedure Execute; override;
+  public
+    constructor create; overload;
+    constructor create(Product: TProduct); overload;
+  end;
+
+implementation
+
+uses
+  Unit1;
+
+
+{ TproductionThread }
+
+constructor TProductionThread.create(Product: TProduct);  //生产有参构造
+begin
+  inherited create(False);
+  Self.FProduct := Product;
+end;
+
+constructor TProductionThread.create;  //生产空参构造
+begin
+  inherited create(True);  //调用父类TThread的方法，true表示线程创建完成后挂起，在调用start方法后才执行
+end;
+
+procedure TProductionThread.Execute;  //生产线程的代码执行
+var
+  Str: string;
+  //多线程
+  //临界区放在循环外能够保证一个线程完整的执行；
+  //临界区放在循环内线程的执行是随机的，但能保证执行的结果正确
+begin
+ //  System.TMonitor.Enter(Self.FProduct);  //进入临界区
+  while True do begin
+
+    System.TMonitor.Enter(Self.FProduct);  //进入临界区，放入循环体内可实现多条生产线集中管理
+    if not Self.FProduct.IsConsumption then   // 当是false时表示没有产品
+    begin
+      Self.FProduct.Id := Self.FProduct.Id + 1;
+      Str := '生产线程ID ' + Self.ThreadID.ToString + ', 当前产品编号：' + self.FProduct.Id.ToString;
+      Form1.mmo1.Lines.Add(Str);
+      Self.Sleep(1000);   //等待100毫秒
+      Self.FProduct.IsConsumption := True; // Z生产完成，有产品待消费
+
+    end;
+    System.TMonitor.Pulse(Self.FProduct); //通知消费线程可以消费，pulse唤醒随机一个消费线程
+    System.TMonitor.Wait(Self.FProduct, INFINITE); //让线程处于等待状态，INFINITE（无限）
+    System.TMonitor.Exit(Self.FProduct);   //退出临界区
+
+  end;
+ //  System.TMonitor.Exit(Self.FProduct);   //退出临界区
+end;
+
+{ TconsumptionTread }
+
+constructor TConsumptionTread.create(Product: TProduct);  //消费有参构造
+begin
+  inherited create(False);
+  Self.FProduct := Product;
+end;
+
+constructor TConsumptionTread.create;  ////生产空参构造
+begin
+
+end;
+
+procedure TConsumptionTread.Execute;   //消费线程的代码执行
+var
+  Str: string;
+begin
+  while True do begin
+
+    System.TMonitor.Enter(Self.FProduct);  //进入临界区，放入循环体内可实现多条生产线集中管理
+    if Self.FProduct.IsConsumption then   // 当是true时表示有产品
+    begin
+     Str := '消费线程ID ' + Self.ThreadID.ToString + ', 当前产品编号：' + self.FProduct.Id.ToString;
+      Form1.mmo1.Lines.Add(Str);
+      Self.Sleep(1000);   //等待100毫秒
+      Self.FProduct.IsConsumption := False; // 产品已消费待生产
+
+    end;
+    System.TMonitor.Pulse(Self.FProduct); //通知生产线程开始生产，pulse唤醒随机一个生产线程
+    System.TMonitor.Wait(Self.FProduct, INFINITE); //让线程处于等待状态，INFINITE（无限）
+    System.TMonitor.Exit(Self.FProduct);   //退出临界区
+
+  end;
+end;
+
+end.
+

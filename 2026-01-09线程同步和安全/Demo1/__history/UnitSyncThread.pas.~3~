@@ -1,0 +1,39 @@
+unit UnitSyncThread;
+
+interface
+
+uses
+  System.SysUtils,System.Classes;
+
+type
+  TWorkingThread = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure Execute; override;
+  end;
+
+implementation
+uses
+  Unit1;
+
+{ TWorkingThread }
+
+procedure TWorkingThread.Execute;
+var
+  i:Integer;
+begin
+  FreeOnTerminate:=True;
+  while True do
+  begin
+    Form1.lbl1.Caption:=i.ToString;
+    if i=10 then
+      begin
+        Exit;
+      end;
+    inc(i);
+    Self.Sleep(100);
+  end;
+end;
+
+end.

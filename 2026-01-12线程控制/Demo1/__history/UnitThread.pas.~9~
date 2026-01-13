@@ -1,0 +1,84 @@
+unit UnitThread;
+
+interface
+
+uses
+  UnitDomain, System.SysUtils, System.Classes;
+
+type
+  TProductionThread = class(TThread)   //生产线程类
+  private
+    FProduct: TProduct;
+  protected
+    procedure Execute; override;
+  public
+    constructor create; overload;  //构造方法，用于创建对象
+    constructor create(Product: TProduct); overload;
+  end;
+
+  TConsumptionTread = class(TThread)  //消费线程类
+  protected
+    procedure Execute; override;
+  public
+    constructor create; overload;
+    constructor create(Product: TProduct); overload;
+  end;
+
+implementation
+
+uses
+  Unit1;
+
+
+{ TproductionThread }
+
+constructor TProductionThread.create(Product: TProduct);  //生产有参构造
+begin
+  inherited create(False);
+  Self.FProduct := Product;
+end;
+
+constructor TProductionThread.create;  //生产空参构造
+begin
+  inherited create(True);  //调用父类TThread的方法，true表示线程创建完成后挂起，在调用start方法后才执行
+end;
+
+procedure TProductionThread.Execute;  //启动生产线程的代码
+var
+  Str: string;
+begin
+
+  while True do begin
+    System.TMonitor.Enter(Self.FProduct);  //进入临界区
+    Str := '线程ID ' + Self.ThreadID.ToString + ', 当前产品编号：' + self.FProduct.Id.ToString;
+    Form1.mmo1.Lines.Add(Str);
+    Self.Sleep(100);
+    Self.FProduct.Id := Self.FProduct.Id + 1;
+    if Self.FProduct.Id = 10 then
+      Exit;
+    System.TMonitor.Exit(Self.FProduct);   //退出临界区
+
+  end;
+
+end;
+
+{ TconsumptionTread }
+
+constructor TConsumptionTread.create(Product: TProduct);  //消费有参构造
+begin
+
+end;
+
+constructor TConsumptionTread.create;  ////生产空参构造
+begin
+
+end;
+
+procedure TConsumptionTread.Execute;   //启动消费线程的代码
+begin
+  inherited;
+
+end;
+
+end.
+

@@ -1,0 +1,26 @@
+unit UnitDomain;
+
+interface
+
+uses
+  System.Classes;
+
+type
+  TProduct = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure Execute; override;
+  end;
+
+implementation
+
+
+{ TProduct }
+
+procedure TProduct.Execute;
+begin
+  { Place thread code here }
+end;
+
+end.

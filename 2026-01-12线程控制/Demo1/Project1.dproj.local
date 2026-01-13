@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2026/01/12 14:17:41.000.037,=G:\DelphiStudy\workspace\Unit1.pas</Transaction>
+    <Transaction>2026/01/12 14:20:05.000.919,G:\DelphiStudy\workspace\Unit1.dfm=G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\Unit1.dfm</Transaction>
+    <Transaction>2026/01/12 14:20:05.000.919,G:\DelphiStudy\workspace\Unit1.pas=G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\Unit1.pas</Transaction>
+    <Transaction>2026/01/12 14:20:08.000.604,G:\DelphiStudy\workspace\Project1.dproj=G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\Project1.dproj</Transaction>
+    <Transaction>2026/01/12 14:31:42.000.972,=G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\Unit2.pas</Transaction>
+    <Transaction>2026/01/12 14:32:36.000.252,G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\Unit2.pas=G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\UnitThread.pas</Transaction>
+    <Transaction>2026/01/12 15:14:47.000.688,=G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\Unit2.pas</Transaction>
+    <Transaction>2026/01/12 15:17:52.000.541,G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\Unit2.pas=G:\DelphiStudy\DelphiStudy\2026-01-12线程控制\Demo1\UnitDomain.pas</Transaction>
+  </Transactions>
+</BorlandProject>

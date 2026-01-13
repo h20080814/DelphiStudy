@@ -1,0 +1,48 @@
+unit UnitSyncThread;
+
+interface
+
+uses
+  System.SyncObjs, System.SysUtils, System.Classes;
+
+type
+  TWorkingThread = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure Execute; override;
+  public
+    procedure Work();
+  end;
+
+implementation
+
+uses
+  Unit1;
+
+var
+  i: Integer;
+  CriticalSecton: TCriticalSection;
+  Cri:TCriticalSection;
+{ TWorkingThread }
+
+procedure TWorkingThread.Execute;
+begin
+  FreeOnTerminate := True;
+ // Self.Synchronize(Work);  //使用同步机制
+end;
+
+procedure TWorkingThread.Work;
+begin
+  while True do begin
+    Form1.mmo1.Lines.Add('线程ID ' + Self.ThreadID.ToString + ', ' + i.ToString);
+    if i = 10 then begin
+      Exit;
+    end;
+    inc(i);
+    Self.Sleep(100);
+  end;
+end;
+
+end.
+

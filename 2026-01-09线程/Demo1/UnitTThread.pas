@@ -1,0 +1,44 @@
+unit UnitTThread;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TWork = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure Execute; override;
+  public
+    procedure Opertion;
+  end;
+
+implementation
+
+uses
+  Unit1;
+{ TWork }
+
+procedure TWork.Execute;
+begin
+  Opertion();
+end;
+
+procedure TWork.Opertion;
+var
+  Num: Integer;
+begin
+
+  for Num := 0 to 100 do begin
+    if FreeOnTerminate then
+      Exit;
+    Form1.lbl2.Caption := Num.ToString;
+    TThread.Sleep(100); //œﬂ≥Ã–›√ﬂ100∫¡√Î
+  end;
+
+end;
+
+end.
+

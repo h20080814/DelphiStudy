@@ -1,0 +1,83 @@
+﻿unit Unit1;
+{
+线程安全
+    1、多个线程共享一块数据时，保证该数据执行的结果是正确的。
+解决方案
+    1、线程同步（线程安全）   VCL控件大部分是线程不安全的
+      同一时间只允许一个线程执行
+实现方式
+    1、Synchronize（同步）
+        是一种用于线程同步的机制，
+        其核心作用是‌将指定的无参数方法调用安全地调度
+        到主线程（VCL主线程）执行‌，
+        主要用于更新VCL控件或访问非线程安全的资源，
+        以避免多线程访问冲突。
+        ‌与Thread.Queue相比，Synchronize是阻塞的，
+        而Queue是非阻塞的：‌
+        Queue仅将方法放入队列后立即返回，不等待执行，
+        适用于异步操作；
+        而Synchronize必须等待主线程完成执行，
+        适用于需要同步结果的场景。‌
+       例如，在更新VCL控件时，Synchronize确保操作顺序性，
+       而Queue适合后台任务。‌
+    2、临界区
+      TCriticalSecton（临界区）类
+        是一个用于线程同步的类，
+        它封装了Windows的临界区机制，
+        确保对共享资源的互斥访问，
+        从而避免多线程环境下的数据竞争
+    3、互斥体
+      TMutex（互斥锁）类
+        是一个线程同步对象，用于保护共享资源，
+        确保同一时间只有一个线程能够访问该资源，
+        从而避免数据竞争和不一致状态。
+        它基于Windows内核互斥对象实现，
+        属于系统级同步原语。‌
+    4、TEvent（事件）类
+      是System.SyncObjs单元提供的一个类，
+      用于实现线程间同步，
+      通过事件对象的信号机制协调线程执行流程。
+    5、TMonitor（监视器）类
+      是一个用于线程同步的记录类型，
+      它提供了一种基于监视器模式的机制，
+      用于协调多个线程对共享资源的访问，
+      从而避免数据竞争和确保线程安全。
+使用场景
+‌   1、当多个线程访问一个对象（数据）时，为了保证数据的准确性
+      我们需要同步
+    2、线程同步：慢（效率低），保证数据的安全性
+    3、线程异步 ：快（效率高），无法保证数据的安全性
+
+}
+
+interface
+
+uses
+  UnitSyncThread, Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    lbl1: TLabel;
+    procedure btn1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+begin
+  TWorkingThread.Create(False);
+end;
+
+end.
+
