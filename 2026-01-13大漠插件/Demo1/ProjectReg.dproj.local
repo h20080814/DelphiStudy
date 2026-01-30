@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2026/01/13 15:12:06.000.172,=G:\DelphiStudy\workspace\Unit1.pas</Transaction>
+    <Transaction>2026/01/13 15:13:25.000.787,G:\DelphiStudy\workspace\Unit1.dfm=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Unit1.dfm</Transaction>
+    <Transaction>2026/01/13 15:13:25.000.787,G:\DelphiStudy\workspace\Unit1.pas=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Unit1.pas</Transaction>
+    <Transaction>2026/01/13 15:13:29.000.062,G:\DelphiStudy\workspace\Project1.dproj=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Project1.dproj</Transaction>
+    <Transaction>2026/01/13 15:14:40.000.284,G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Unit1.dfm=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\MainForm.dfm</Transaction>
+    <Transaction>2026/01/13 15:14:40.000.284,G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Unit1.pas=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\MainForm.pas</Transaction>
+    <Transaction>2026/01/13 15:15:51.000.778,=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Unit1.pas</Transaction>
+    <Transaction>2026/01/13 15:16:30.000.977,G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Unit1.pas=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\UnitTool.pas</Transaction>
+    <Transaction>2026/01/14 11:12:42.000.743,G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\ProjectReg.dproj=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Project1.dproj</Transaction>
+    <Transaction>2026/01/15 09:21:41.000.803,=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Unit1.pas</Transaction>
+    <Transaction>2026/01/15 09:22:42.000.656,G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\Unit1.pas=G:\DelphiStudy\DelphiStudy\2026-01-13大漠插件\Demo1\UnitSendStrThread.pas</Transaction>
+  </Transactions>
+</BorlandProject>

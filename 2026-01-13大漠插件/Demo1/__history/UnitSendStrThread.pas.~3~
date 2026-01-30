@@ -1,0 +1,55 @@
+unit UnitSendStrThread;
+
+interface
+
+uses
+  Dm_TLB, System.Classes, Winapi.Windows;
+
+type
+  TSendStrThread = class(TThread)
+  private
+    MyHand: Integer;
+    MyDm: Idmsoft;
+  protected
+    procedure Execute; override;
+  public
+    constructor create; overload;
+    constructor cteate(MyHand: Integer); overload;
+  end;
+
+implementation
+
+uses
+  UnitTool;
+
+
+{ TSendStrThread }
+
+constructor TSendStrThread.create;
+begin
+  inherited create(False);
+end;
+
+constructor TSendStrThread.cteate(MyHand: Integer);
+begin
+  inherited create(False);
+  Self.MyHand := MyHand;
+
+end;
+
+procedure TSendStrThread.Execute;
+begin
+  MyDm := CreateComObjectFromDll(CLASS_dmsoft, LoadLibrary('dm.dll')) as Idmsoft;
+  Self.MyHand := MyDm.FindWindowEx(Self.MyHand, '', '');
+  //´°¿Ú°ó¶¨
+  if MyDm.BindWindow(Self.MyHand, 'gdi', 'windows', 'windows', 0) = 0 then begin
+    Exit;
+  end;
+ //²Ù×÷Ïò´°¿ÚÖÐ·¢ËÍ×Ö·û´®
+  while True do begin
+    MyDm.SendString(Self.MyHand, PWideChar('×Ö·û´®²âÊÔ'));
+  end;
+end;
+
+end.
+

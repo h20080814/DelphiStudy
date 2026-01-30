@@ -1,0 +1,243 @@
+unit UnitMainFrm;
+{
+流TStream：就是建立在面向对象基础上的一种抽象的以字节的形式处理数据的工具。
+   I(in)O(out)流：等待处理的数据
+    在流中，定义了一些处理数据的基本操作，如读取数据、写入数据等，
+    程序员是对流进行所有操作的，二不用关心流的另一头数据的真正流向。
+  流可以处理文件、动态内存、网络数据等多种数据形式。
+  流TStream是一个抽象的基类，不能直接生成对象，在具体的应用中，主要使用它的子孙类：
+  根据处理方式分为：
+    1、TFileStream:文件流
+    2、TStringStream:字符串流
+    3、TMemoryStream:内存流
+    4、TResourceStream:资源文件流
+  Stream的属性：
+  1、Size:以字节为单位表示流的大小
+  2、Position:当前的指针位置
+
+   THandleStream:的父类是TFileStream；
+   TCustomMemoryStream:的父类是TSream；
+   TMemoryStream:的父类是TCustomMemoryStream;
+   TResourceStream:的父类是TCustomMemoryStream;
+}
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    btn2: TButton;
+    btn3: TButton;
+    btn4: TButton;
+    mmo1: TMemo;
+    btn5: TButton;
+    btn6: TButton;
+    btn7: TButton;
+    btn8: TButton;
+    btn9: TButton;
+    procedure btn1Click(Sender: TObject);
+    procedure btn2Click(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
+    procedure btn4Click(Sender: TObject);
+    procedure btn5Click(Sender: TObject);
+    procedure btn6Click(Sender: TObject);
+    procedure btn7Click(Sender: TObject);
+    procedure btn8Click(Sender: TObject);
+    procedure btn9Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+ //结构体
+
+  TPerson = record
+    Name: string;
+    Age: Integer;
+  end;
+
+var
+  Form1: TForm1;
+
+const
+  SourceFilePath: string = 'G:\bac.txt';
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  ReadFileStream: TFileStream;
+  WriteFileStream: TFileStream;
+begin
+  try
+ //创建对象
+    ReadFileStream := TFileStream.Create('D:\abc.txt', fmOpenRead);
+    WriteFileStream := TFileStream.Create('G:\bac.txt', fmCreate);  //fmCreate：如果目标不存在，创建；如果目标存在，也可用fmOpenWrite
+//设置读取位置
+    ReadFileStream.Position := 0;
+  //复制对象
+    WriteFileStream.CopyFrom(ReadFileStream, ReadFileStream.Size);
+
+  finally
+//释放
+    FreeAndNil(ReadFileStream);
+    FreeAndNil(WriteFileStream);
+
+  end;
+
+end;
+
+procedure TForm1.btn2Click(Sender: TObject);
+var
+  FileStream: TFileStream;
+  Str: string; { 注意长度和字符编码：Ansi、Unicode、utf-8、gbk，CopyMemory使用的长度是Length(Str),
+但是在Delphi增加了Unicode字符支持后会导致长度计算不够，只发送半截字符，
+所以采用ByteLength函数对Unicode字符串求字节长度，如果对Ansi字符串进行计算，
+则采用Length(Str)*SizeOf(Char)
+ }
+  StrByte: TBytes;
+begin
+ // Str := 'FileStream.WriteBuffer';
+  Str := '期待老侯粉丝破万粉丝破万粉丝破万';
+  try
+    FileStream := TFileStream.Create(SourceFilePath, fmCreate);
+    //将string转换为指定字符编码的字节数组
+    StrByte := TEncoding.UTF8.GetBytes(Str);
+    FileStream.WriteBuffer(StrByte, Length(StrByte));
+//    FileStream.WriteBuffer(PChar(Str)^, Length(Str) * SizeOf(Char)); //^在变量名右边时表示解除指针引用,从而获取其中存储的数据
+    //PChar表示指针型的字符串，P等同与^
+
+  finally
+  //  FileStream.Free;
+    FreeAndNil(FileStream);
+  end;
+
+end;
+
+procedure TForm1.btn3Click(Sender: TObject);
+var
+  FileStream: TFileStream;
+//  Str:string;
+  Str: UTF8String;
+begin
+
+  try
+    FileStream := TFileStream.Create(SourceFilePath, fmOpenRead);
+// 设置字符串的长度
+    SetLength(Str, FileStream.Size);
+    FileStream.Position := 0;
+  //   FileStream.Read(PChar(Str)^, FileStream.Size);
+    FileStream.Read(PUTF8Char(Str)^, FileStream.Size);
+    ShowMessage(Str);
+  finally
+    FreeAndNil(FileStream);
+  end;
+
+end;
+
+procedure TForm1.btn4Click(Sender: TObject);
+var
+  FileStream: TFileStream;
+ // Str: string;
+  Str: UTF8String;
+begin
+  try
+    FileStream := TFileStream.Create(SourceFilePath, fmOpenRead);
+    FileStream.Position := 0;
+    SetLength(Str, FileStream.Size);
+    FileStream.Read(PUTF8Char(Str)^, FileStream.Size);
+    Self.mmo1.Lines.Add(Str);
+  finally
+    FreeAndNil(FileStream);
+  end;
+end;
+
+procedure TForm1.btn5Click(Sender: TObject);
+var
+  FileStream: TFileStream;
+  Person: TPerson;
+begin
+  try
+    FileStream := TFileStream.Create('G:\Person.txt', fmCreate);
+  //创建（构造）结构体数据
+    Person.Name := '赵大';
+    Person.Age := 23;
+  //写入数据
+    FileStream.Write(Person, SizeOf(Person));
+
+  finally
+    FreeAndNil(FileStream);
+  end;
+end;
+
+procedure TForm1.btn6Click(Sender: TObject);
+var
+  FileStream: TFileStream;
+  Person: TPerson;
+begin
+  try
+    FileStream := TFileStream.Create('G:\Person.txt', fmOpenRead);
+    //设置文件指针位置
+    FileStream.Position := 0;
+     //遍历流中的数据（字节）
+    while FileStream.Position < FileStream.Size do begin
+      FileStream.Read(Person, SizeOf(Person));
+      Self.mmo1.Lines.Add(Person.Name + '，' + Person.Age.ToString);
+    end;
+  finally
+
+    FreeAndNil(FileStream);
+
+  end;
+end;
+
+procedure TForm1.btn7Click(Sender: TObject);
+var
+  FileStream: TFileStream;
+begin
+  try
+    FileStream := TFileStream.Create('G:\Demo1.txt', fmCreate);
+    with Self.mmo1 do begin
+      Lines.Add('dododo');
+      Lines.Add('gogogo');
+      Lines.add('祝老侯粉丝破万');
+    end;
+//组件mmol序列化
+    FileStream.WriteComponent(Self.mmo1);  //序列化
+  finally
+    FreeAndNil(FileStream);
+  end;
+end;
+
+procedure TForm1.btn8Click(Sender: TObject);
+var
+  FileStream: TFileStream;
+begin
+
+  try
+    FileStream := TFileStream.Create('G:\Demo1.txt', fmOpenRead);
+   //组件mmol反序列化
+    FileStream.ReadComponent(Self.mmo1);  //反序列化
+  finally
+    FreeAndNil(FileStream);
+  end;
+end;
+
+procedure TForm1.btn9Click(Sender: TObject);
+var
+  FileStream: TFileStream;
+begin
+//  Self.mmo1.Lines.LoadFromFile('G:\Demo1.txt'); \
+  FileStream := TFileStream.Create('G:\Demo1.txt', fmOpenRead);
+  Self.mmo1.Lines.LoadFromStream(FileStream, TEncoding.UTF8);
+  FreeAndNil(FileStream);
+end;
+
+end.
+

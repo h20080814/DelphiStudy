@@ -1,0 +1,25 @@
+library ProjectDll;
+
+uses
+  System.SysUtils,
+  System.Classes;
+
+{$R *.res}
+//重载，两个过程名相同，参数类型不同overload
+function Add(Num1, Num2: Integer): Integer; overload; stdcall;
+begin
+  Result := Num1 + Num2;
+end;
+
+function Add(Num1, Num2: Double): Double; overload; stdcall;
+begin
+  Result := Num1 + Num2;
+end;
+
+exports
+  Add(Num1, Num2: Integer) name 'AddInteger',
+  Add(Num1, Num2: Double) name 'AddDouble';
+
+begin
+end.
+

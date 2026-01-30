@@ -1,0 +1,56 @@
+unit UnitMainFrm;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    procedure btn1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  MyFun: function(x, y: Integer): Integer; stdcall;  //函数类型的变量
+{ 以上是一种简写，等同于：
+type
+  aaa = function (Num1, Num2: Integer): Integer;
+var
+  bb : aaa;
+}
+  Hand: System.Cardinal;
+{
+System.Cardinal是 Delphi 编程语言中的一种数据类型，它是一个无符号的 32 位整数类型，其取值范围从 0 到 4,294,967,295（即 2^32 - 1）。
+这种类型常用于需要处理大数值或与 Windows API 等外部函数接口交互时，因为这些函数通常使用 DWORD 类型（在 C/C++ 中为 unsigned long），而 Cardinal 正好对应这一类型。
+在 Delphi 中，Cardinal 类型与 Integer 类型类似，但没有符号，因此它不能表示负数。
+当进行数学运算时，如果混合使用 Integer 和 Cardinal，编译器会自动将它们转换为 Int64 类型以确保精度，这可能会导致性能下降或意外行为。
+因此，在进行计算时，建议使用更明确的子区间类型来代替 Cardinal。
+此外，Cardinal 通常用于表示内存地址、句柄或其他非负整数，尤其是在调用 Windows API 函数时。
+例如，某些 API 函数接受 Cardinal 类型的参数，用于传递标志、状态码或计数等信息。
+总结来说，System.Cardinal 是 Delphi 中一个重要的无符号 32 位整数类型，主要用于与底层系统交互或处理大范围的非负整数值。
+}
+begin
+  Hand := LoadLibrary('G:\DelphiStudy\DelphiStudy\2026-01-16Dll\Win32\Debug\TestDll.dll');
+  if Hand <> 0 then begin
+    MyFun := GetProcAddress(Hand, 'Add'); //调用dll
+    //MessageBox(0, PWideChar('Dll加载成功'+MyFun(10,20).ToString), '提示', mb_ok);
+    ShowMessage(MyFun(10, 20).ToString);
+  end;
+end;
+
+end.
+

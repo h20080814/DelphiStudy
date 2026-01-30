@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2026/01/19 09:10:51.000.578,=G:\DelphiStudy\workspace\Unit1.pas</Transaction>
+    <Transaction>2026/01/19 09:13:07.000.639,G:\DelphiStudy\workspace\Unit1.dfm=G:\DelphiStudy\DelphiStudy\2026-01-19文件读写操作\Demo1\UnitMainFrom.dfm</Transaction>
+    <Transaction>2026/01/19 09:13:07.000.639,G:\DelphiStudy\workspace\Unit1.pas=G:\DelphiStudy\DelphiStudy\2026-01-19文件读写操作\Demo1\UnitMainFrom.pas</Transaction>
+    <Transaction>2026/01/19 09:13:14.000.623,G:\DelphiStudy\workspace\Project1.dproj=G:\DelphiStudy\DelphiStudy\2026-01-19文件读写操作\Demo1\Project1.dproj</Transaction>
+    <Transaction>2026/01/19 09:13:44.000.268,G:\DelphiStudy\DelphiStudy\2026-01-19文件读写操作\Demo1\Project1.dproj=G:\DelphiStudy\DelphiStudy\2026-01-19文件读写操作\Demo1\ProjectMain.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

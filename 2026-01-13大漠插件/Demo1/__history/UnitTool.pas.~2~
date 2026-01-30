@@ -1,0 +1,10 @@
+unit UnitTool;
+
+interface
+ uses
+ System.Win.ComObj,AccessibilityCplAdminLib_TLB,Winapi.Windows, System.Classes, System.Variants,
+ System.Win.StdVCL, Vcl.Graphics, Vcl.OleServer
+ Winapi.ActiveX;
+implementation
+
+end.

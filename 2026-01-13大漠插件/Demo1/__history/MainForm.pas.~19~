@@ -1,0 +1,88 @@
+unit MainForm;
+
+interface
+
+uses
+  Dm_TLB, UnitTool, Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    procedure btn1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+uses
+  UnitSendStrThread;
+{$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  DmHdl: THandle;
+  MyDm: Idmsoft;
+  Hands: string;
+  MyHand: string;
+  DmRet: Integer;
+begin
+  DmHdl := LoadLibrary('dm.dll');
+  if DmHdl < 32 then begin
+    ShowMessage('初始化失败,请检测运行目录中是否含有dm.dll文件');
+    Exit;
+  end;
+
+//  else begin
+//    MyDm := CreateComObjectFromDll(CLASS_dmsoft, DmHdl) as Idmsoft;
+//    ShowMessage('初始化成功 插件版本：' + MyDm.Ver);
+//    MyDm := nil;
+//  end;
+  MyDm := CreateComObjectFromDll(CLASS_dmsoft, DmHdl) as Idmsoft;
+  if MyDm = nil then begin
+    Exit;
+  end;
+    //获取窗口句柄
+  Hands := MyDm.EnumWindow(0, '记事本', '', 1 + 4 + 8 + 16);
+  //Application.MessageBox(PWideChar(Hands), '', MB_OK);
+  //枚举（遍历）窗口
+  for MyHand in Hands.Split([',']) do begin
+  //  ShowMessage(MyHand);
+    MyDm.SetWindowState(StrToInt(MyHand), 12);
+    MyDm.delay(100);
+  //窗口绑定
+    DmRet := MyDm.BindWindow(StrToInt(MyHand), 'gdi', 'windows', 'windows', 0);
+    if DmRet = 0 then begin
+      ShowMessage('绑定失败');
+      Exit;
+    end;
+
+    TSendStrThread.Create(StrToInt(MyHand));
+    end;
+
+
+
+//操作向窗口中发送字符串
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  OLERegister('./dm.dll', 1);
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  OLERegister('./dm.dll', 0);
+
+end;
+
+end.
+

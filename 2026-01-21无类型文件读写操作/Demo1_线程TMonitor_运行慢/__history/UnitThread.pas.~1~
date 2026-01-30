@@ -1,0 +1,27 @@
+unit UnitThread;
+
+interface
+
+uses
+  System.Classes;
+
+type
+  TFileRWThread = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure Execute; override;
+  end;
+
+implementation
+
+
+
+{ TFileRWThread }
+
+procedure TFileRWThread.Execute;
+begin
+  { Place thread code here }
+end;
+
+end.

@@ -1,0 +1,190 @@
+unit UnitMainFrom;
+
+interface
+
+uses
+  System.Generics.Collections, Winapi.Windows, Winapi.Messages, System.SysUtils,
+  System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    btn2: TButton;
+    btn3: TButton;
+    btn4: TButton;
+    mmo1: TMemo;
+    btn5: TButton;
+    grp1: TGroupBox;
+    lblName: TLabel;
+    lblAge: TLabel;
+    edtName: TEdit;
+    edtAge: TEdit;
+    procedure btn1Click(Sender: TObject);
+    procedure btn2Click(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
+    procedure btn4Click(Sender: TObject);
+    procedure btn5Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+  end;
+
+  TPerson = record  //结构体
+    Name: string[20]; //指定长度的字符串
+    Age: Integer;
+  end;
+
+var
+  Form1: TForm1;
+
+const
+  Source_File = 'D:\test.txt';
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  DataSourceFile: TextFile;  //写入读取文本文档的类型
+begin
+  try
+    AssignFile(DataSourceFile, Source_File); //将磁盘上的文件与变量关联
+    Rewrite(DataSourceFile); //打开文件，如果不存在，创建；如果已存在，覆盖
+    Writeln(DataSourceFile, 'Hello'); //写入数据（在内存中）
+  finally
+    CloseFile(DataSourceFile); //保存并关闭文件 ：把内存中的数据写入到磁盘；2、释放资源
+  end;
+
+end;
+
+procedure TForm1.btn2Click(Sender: TObject);
+var
+  DataSourceFile: TextFile;  //写入读取文本文档的类型
+  Content: string;
+begin
+  try
+    AssignFile(DataSourceFile, Source_File); //将磁盘上的文件与变量关联
+    Reset(DataSourceFile);  //以只读的方式打开文件
+    Readln(DataSourceFile, Content); //读取文本数据
+  //ShowMessage(Content);  //弹窗显示
+    Form1.Caption := Form1.Caption + '，' + Content; //显示
+  finally
+    CloseFile(DataSourceFile); //关闭文件，释放资源
+  end;
+
+end;
+
+procedure TForm1.btn3Click(Sender: TObject);
+var
+  Person: TPerson;
+  PersonFile: file of TPerson;
+begin
+  try
+    AssignFile(PersonFile, Source_File);  //关联文件
+    Rewrite(PersonFile); //以写的方式打开文件
+    Person.Name := '钱七';  //构造结构体的数据
+    Person.Age := 14;
+    write(PersonFile, Person); //将结构体的数据写入文件
+    ShowMessage('记录数：' + IntToStr(FileSize(PersonFile)) + '当前记录指针位置：' + IntToStr(FilePos(PersonFile)));
+
+    Person.Name := '赵武';  //构造结构体的数据
+    Person.Age := 20;
+    write(PersonFile, Person); //将结构体的数据写入文件
+    ShowMessage('记录数：' + IntToStr(FileSize(PersonFile)) + '当前记录指针位置：' + IntToStr(FilePos(PersonFile)));
+  finally
+    CloseFile(PersonFile);
+  end;
+end;
+
+procedure TForm1.btn4Click(Sender: TObject);
+var
+  Person: TPerson;
+  PersonFile: file of TPerson;
+begin
+  try
+    AssignFile(PersonFile, Source_File);  //关联文件
+    Reset(PersonFile); //以读的方式打开文件
+    Seek(PersonFile, 1); //改变文件指针位置，文件指针索引是从0开始
+    read(PersonFile, Person); //读取文件
+    Form1.mmo1.Clear;
+    Form1.mmo1.Lines.Add(Person.Name);
+    Form1.mmo1.Lines.Add(Person.Age.ToString);
+    ShowMessage('记录数：' + IntToStr(FileSize(PersonFile)) + '当前记录指针位置：' + IntToStr(FilePos(PersonFile)));
+  finally
+    CloseFile(PersonFile);
+  end;
+end;
+
+{
+ 追加的方式实现对结构体数据的存储的思路
+ 1、判断文件是否存在
+  1）存在
+    1.先读后写（这种方法没有实际意义）：读取文件中的内容并存储到一个容器中，追加后再将容器中的数据写入到文件中
+      MongoDB(缓存数据库) JSON字符串
+    2.文件复制：可以先读后写，也可以边读边写
+  2）不存在
+    直接写入
+}
+
+procedure TForm1.btn5Click(Sender: TObject);
+var
+  Person: TPerson;
+  ReadDataFile, WriteDataFile: file of TPerson;
+  Persons: TList<TPerson>;
+  i: Integer;
+begin
+  Persons := TList<TPerson>.Create;
+
+  //判断文件是否存在
+  if not FileExists(Source_File) then  //不存在
+  begin
+    try
+      AssignFile(WriteDataFile, Source_File); //关联文件
+      Rewrite(WriteDataFile); //以写的方式打开文件
+     //构造数据
+      Person.Name := Form1.edtName.Text;
+      Person.Age := StrToInt(Form1.edtAge.Text);
+      write(WriteDataFile, Person);
+    finally
+      CloseFile(WriteDataFile);
+    end;
+   // Exit;
+  end
+  else      //文件存在
+  begin
+    form1.mmo1.Clear;
+    try
+        //先读
+      AssignFile(ReadDataFile, Source_File);  //关联文件
+      Reset(ReadDataFile); //以读的方式打开文件
+
+      //ShowMessage(Person.Name);
+      //循环读取所有数据
+      while not Eof(ReadDataFile) do begin
+        read(ReadDataFile, Person);
+        Form1.mmo1.Lines.Add('姓名：' + Person.Name + '，年龄：' + Person.Age.ToString);
+      end;
+      //在原来数据的基础上添加新数据
+      Person.Name := Form1.edtName.Text;
+      Person.Age := StrToInt(Form1.edtAge.Text);
+      write(WriteDataFile, Person);
+        //后写
+      AssignFile(WriteDataFile, Source_File); //关联文件
+      Rewrite(WriteDataFile); //以写的方式打开文件
+      for i := 0 to (Persons.Count - 1) do begin
+        Person := Persons[i];
+        write(WriteDataFile, Person);
+      end;
+
+    finally
+      CloseFile(ReadDataFile);
+     // CloseFile(WriteDataFile);
+    end;
+  end;
+
+end;
+
+end.
+
